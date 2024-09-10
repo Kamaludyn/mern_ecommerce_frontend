@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "./layouts/main-layout/MainLayout";
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
@@ -6,6 +8,17 @@ import Login from "./pages/Login";
 import CreateAccount from "./pages/CreateAccount";
 import ProfilePage from "./pages/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
+import Users from "./pages/dashboardPages/Users";
+import Products from "./pages/dashboardPages/Products";
+import Categories from "./pages/dashboardPages/Categories";
+import Orders from "./pages/dashboardPages/Orders";
+import Reports from "./pages/dashboardPages/Reports";
+import Reviews from "./pages/dashboardPages/Reviews";
+import Support from "./pages/dashboardPages/Support";
+import Inventory from "./pages/dashboardPages/Inventory";
+import Settings from "./pages/dashboardPages/Settings";
+import DashboardLayout from "./components/dashboard/DashboardLayout";
+import DashboardNav from "./components/dashboard/DashboardNav";
 
 function App() {
   const router = createBrowserRouter([
@@ -39,8 +52,69 @@ function App() {
         },
       ],
     },
+    {
+      path: "/dashboard",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "",
+          element: <DashboardNav />,
+        },
+        {
+          path: "users",
+          element: <Users />,
+        },
+        {
+          path: "products",
+          element: <Products />,
+        },
+        {
+          path: "categories",
+          element: <Categories />,
+        },
+        {
+          path: "orders",
+          element: <Orders />,
+        },
+        {
+          path: "reports",
+          element: <Reports />,
+        },
+        {
+          path: "reviews",
+          element: <Reviews />,
+        },
+        {
+          path: "support",
+          element: <Support />,
+        },
+        {
+          path: "inventory",
+          element: <Inventory />,
+        },
+        {
+          path: "settings",
+          element: <Settings />,
+        },
+      ],
+    },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnFocusLoss
+        pauseOnHover
+        draggable
+        theme="light"
+        transition={Bounce}
+      />
+    </>
+  );
 }
 
 export default App;

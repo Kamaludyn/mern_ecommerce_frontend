@@ -7,14 +7,13 @@ import Newsletter from "../components/Newsletter";
 
 const Home = () => {
   return (
-    <>
+    <main>
       <Hero />
       <LatestDeals />
       <FlashSale />
       <Banners />
       <OfficialStore />
-      <Newsletter />
-    </>
+    </main>
   );
 };
 

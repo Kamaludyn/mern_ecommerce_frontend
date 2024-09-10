@@ -2,7 +2,7 @@ import api from "../services/api";
 import React, { useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaKey } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import {toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
@@ -106,7 +106,7 @@ const Login = () => {
           </Link>
         </div>
       </form>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-center"
         autoClose={3000}
         hideProgressBar={false}
@@ -116,7 +116,7 @@ const Login = () => {
         draggable
         theme="light"
         transition={Bounce}
-      />
+      /> */}
     </>
   );
 };

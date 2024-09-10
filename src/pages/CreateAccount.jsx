@@ -11,7 +11,7 @@ import {
   FaEye,
 } from "react-icons/fa";
 import api from '../services/api';
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateAccount = () => {
@@ -186,7 +186,7 @@ const CreateAccount = () => {
           </Link>
         </div>
       </form>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -196,7 +196,7 @@ const CreateAccount = () => {
         draggable
         theme="light"
         transition={Bounce}
-      />
+      /> */}
     </>
   );
 };
