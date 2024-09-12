@@ -74,10 +74,10 @@ const Products = () => {
   };
 
   return (
-    <section className="w-full overflow-x-clip">
+    <section className="w-full overflow-x-clip text-text-primary">
       <header className="pt-8 mb-5">
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-h1 text-text-primary">Products</h2>
+          <h2 className="text-h1">Products</h2>
           <button
             className="bg-teal-600 hover:bg-teal-700 text-lime-50 rounded-xl p-2 px-3 flex items-center gap-2"
             onClick={toggleForm}

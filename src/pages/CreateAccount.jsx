@@ -10,8 +10,8 @@ import {
   FaEyeSlash,
   FaEye,
 } from "react-icons/fa";
-import api from '../services/api';
-import {toast} from "react-toastify";
+import api from "../services/api";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateAccount = () => {
@@ -49,9 +49,7 @@ const CreateAccount = () => {
 
     try {
       // Sending a POST request to create an account
-      const response = await api.post("/customers",
-        formData
-      );
+      const response = await api.post("/customers", formData);
       toast.success("Account created successfully");
       navigate("/profile");
       // Reset the form after submission
@@ -186,17 +184,6 @@ const CreateAccount = () => {
           </Link>
         </div>
       </form>
-      {/* <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnFocusLoss
-        pauseOnHover
-        draggable
-        theme="light"
-        transition={Bounce}
-      /> */}
     </>
   );
 };

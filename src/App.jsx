@@ -8,17 +8,16 @@ import Login from "./pages/Login";
 import CreateAccount from "./pages/CreateAccount";
 import ProfilePage from "./pages/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
+import Overview from "./pages/dashboardPages/Overview";
 import Users from "./pages/dashboardPages/Users";
 import Products from "./pages/dashboardPages/Products";
 import Categories from "./pages/dashboardPages/Categories";
 import Orders from "./pages/dashboardPages/Orders";
 import Reports from "./pages/dashboardPages/Reports";
-import Reviews from "./pages/dashboardPages/Reviews";
 import Support from "./pages/dashboardPages/Support";
 import Inventory from "./pages/dashboardPages/Inventory";
 import Settings from "./pages/dashboardPages/Settings";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
-import DashboardNav from "./components/dashboard/DashboardNav";
 
 function App() {
   const router = createBrowserRouter([
@@ -58,7 +57,7 @@ function App() {
       children: [
         {
           path: "",
-          element: <DashboardNav />,
+          element: <Overview />,
         },
         {
           path: "users",
@@ -81,10 +80,6 @@ function App() {
           element: <Reports />,
         },
         {
-          path: "reviews",
-          element: <Reviews />,
-        },
-        {
           path: "support",
           element: <Support />,
         },
@@ -104,7 +99,7 @@ function App() {
       <RouterProvider router={router} />
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={4000}
         hideProgressBar={false}
         closeOnClick
         pauseOnFocusLoss

@@ -121,7 +121,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
         <select
           name="category"
           required
-          className="add-product-input mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700 bg-white"
+          className="outline-none mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700 bg-white"
           value={formData.category}
           onChange={handleInputChange}
         >
@@ -133,7 +133,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           ))}
         </select>
         <input
-          className="add-product-input pt-1.5 mb-3"
+          className="outline-none pt-1.5 mb-3"
           type="file"
           name="product_image"
           id="image"
@@ -141,7 +141,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           onChange={handleFileChange}
         />
         <input
-          className="add-product-input mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
+          className="outline-none mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
           type="text"
           name="name"
           placeholder="Product Name"
@@ -150,7 +150,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           required
         />
         <textarea
-          className="add-product-input pt-1.5 mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
+          className="outline-none pt-1.5 mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
           name="description"
           placeholder="Product Description"
           value={formData.description}
@@ -158,7 +158,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           required
         ></textarea>
         <input
-          className="add-product-input pt-1.5 mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
+          className="outline-none pt-1.5 mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
           type="number"
           name="price"
           placeholder="Product Price"
@@ -170,7 +170,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           <p className="text-red text-xs">{formErrors.price}</p>
         )}
         <input
-          className="add-product-input pt-1.5 mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
+          className="outline-none pt-1.5 mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
           type="number"
           name="countInStock"
           placeholder="Count In Stock"

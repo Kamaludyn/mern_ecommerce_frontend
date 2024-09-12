@@ -1,60 +1,55 @@
 import React from "react";
 import {
-  FaUsers,
-  FaBox,
-  FaClipboardList,
-  FaChartLine,
-  FaComments,
-  FaLifeRing,
-  FaBoxes,
-  FaCog,
+  FaTachometerAlt,
+  FaUserFriends,
+  FaBoxOpen,
+  FaTags,
+  FaShoppingCart,
+  FaHeadset,
+  FaWarehouse,
+  FaCogs,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const menuItems = [
   {
+    label: "Overview",
+    icon: <FaTachometerAlt />, // Dashboard icon
+    route: "/dashboard",
+  },
+  {
+    label: "Users",
+    icon: <FaUserFriends />, // User management icon
+    route: "/dashboard/users",
+  },
+  {
     label: "Products",
-    icon: <FaBox />,
+    icon: <FaBoxOpen />, // Products icon
     route: "/dashboard/products",
   },
   {
     label: "Categories",
-    icon: <FaClipboardList />,
+    icon: <FaTags />, // Categories icon
     route: "/dashboard/categories",
   },
   {
-    label: "Users",
-    icon: <FaUsers />,
-    route: "/dashboard/users",
-  },
-  {
     label: "Orders",
-    icon: <FaClipboardList />,
+    icon: <FaShoppingCart />, // Orders icon
     route: "/dashboard/orders",
   },
   {
-    label: "Reports",
-    icon: <FaChartLine />,
-    route: "/dashboard/reports",
-  },
-  {
-    label: "Reviews",
-    icon: <FaComments />,
-    route: "/dashboard/reviews",
-  },
-  {
-    label: "Support",
-    icon: <FaLifeRing />,
-    route: "/dashboard/support",
-  },
-  {
     label: "Inventory",
-    icon: <FaBoxes />,
+    icon: <FaWarehouse />, // Inventory icon
     route: "/dashboard/inventory",
   },
   {
+    label: "Support",
+    icon: <FaHeadset />, // Support icon
+    route: "/dashboard/support",
+  },
+  {
     label: "Settings",
-    icon: <FaCog />,
+    icon: <FaCogs />, // Settings icon
     route: "/dashboard/settings",
   },
 ];
@@ -72,6 +67,7 @@ const SideBarNav = ({ isOpen }) => {
           <li key={index} className="flex items-center ">
             <NavLink
               to={item.route}
+              end
               className={({ isActive }) =>
                 isActive
                   ? "bg-teal-500 flex items-center gap-x-4 w-full rounded-r-full pl-7 py-1"

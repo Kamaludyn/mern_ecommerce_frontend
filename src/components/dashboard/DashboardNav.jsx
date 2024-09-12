@@ -11,7 +11,7 @@ const DashboardNav = () => {
   };
   return (
     <>
-     <Header openMenu={openMenu}/>
+      <Header openMenu={openMenu} />
       <SideBarNav isOpen={isOpen} />
     </>
   );
