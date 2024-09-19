@@ -1,5 +1,6 @@
+import { AppProvider } from "./context/AppContext";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "./layouts/main-layout/MainLayout";
 import Home from "./pages/Home";
@@ -18,6 +19,8 @@ import Support from "./pages/dashboardPages/Support";
 import Inventory from "./pages/dashboardPages/Inventory";
 import Settings from "./pages/dashboardPages/Settings";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import ProductPreview from "./pages/ProductPreview";
+import { DashboardProvider } from "./context/DashboardContext";
 
 function App() {
   const router = createBrowserRouter([
@@ -32,6 +35,10 @@ function App() {
         {
           path: "/category/:category",
           element: <CategoryPage />,
+        },
+        {
+          path: "/product/:id",
+          element: <ProductPreview />,
         },
         {
           path: "/create-account",
@@ -53,7 +60,11 @@ function App() {
     },
     {
       path: "/dashboard",
-      element: <DashboardLayout />,
+      element: (
+        <DashboardProvider>
+          <DashboardLayout />,
+        </DashboardProvider>
+      ),
       children: [
         {
           path: "",
@@ -95,7 +106,7 @@ function App() {
     },
   ]);
   return (
-    <>
+    <AppProvider>
       <RouterProvider router={router} />
       <ToastContainer
         position="top-center"
@@ -108,7 +119,7 @@ function App() {
         theme="light"
         transition={Bounce}
       />
-    </>
+    </AppProvider>
   );
 }
 

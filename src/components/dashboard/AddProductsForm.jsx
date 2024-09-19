@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaTimes } from "react-icons/fa";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { DashboardContext } from "../../context/DashboardContext";
 
 const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,8 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
     product_image: null,
   });
   const [formErrors, setFormErrors] = useState({});
+
+  const { products, setProducts } = useContext(DashboardContext);
 
   // Effect to pre-populate form when editing a product (selectedRowData is available)
   useEffect(() => {
@@ -32,7 +35,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
     }
   }, [selectedRowData]);
 
-  // Handle input changes for all form fields except file input and radio buttons
+  // Handle input changes for all form fields except file input
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
     setFormData((prevFormData) => ({
@@ -61,7 +64,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
 
     // Validate form and check for errors
     const error = validateForm();
-    if (error) {
+    if (Object.keys(error).length > 0) {
       setFormErrors(error);
       return;
     }
@@ -87,14 +90,44 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
     try {
       // Editing an existing product
       if (selectedRowData) {
+        // Checking if no changes were made
+        if (
+          selectedRowData &&
+          JSON.stringify({
+            ...formData,
+            product_image: undefined,
+          }) ===
+            JSON.stringify({
+              ...selectedRowData,
+            })
+        ) {
+          toast.info("No changes were made.");
+          setLoading(false);
+          return;
+        }
+
         const editResponse = await api.put(
           `/products/${selectedRowData._id}`,
           formInputData
         );
+        // console.log("Edit Response", editResponse.data);
+        setProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product._id === selectedRowData._id
+              ? {
+                  ...product,
+                  ...editResponse.data,
+                }
+              : product
+          )
+        );
+
         toast.success("Product updated successfully!");
       } else {
         // Create new product
         const createResponse = await api.post("/products", formInputData);
+        // console.log("Create Response", createResponse.data);
+        setProducts([...products, createResponse.data]);
         toast.success("Product added successfully!");
       }
     } catch (error) {
@@ -125,7 +158,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           value={formData.category}
           onChange={handleInputChange}
         >
-          <option value="">Select category</option>
+          <option value="">Select a category</option>
           {categories.map((category) => (
             <option key={category._id} value={category._id}>
               {category.name}
@@ -139,6 +172,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           id="image"
           accept="image/*"
           onChange={handleFileChange}
+          required
         />
         <input
           className="outline-none mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"

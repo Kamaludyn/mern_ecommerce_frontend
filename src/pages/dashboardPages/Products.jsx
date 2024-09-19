@@ -1,41 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import ProductsDataTable from "../../components/dashboard/ProductsDataTable";
 import AddProductsForm from "../../components/dashboard/AddProductsForm";
+import { DashboardContext } from "../../context/DashboardContext";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
   const [selectedRowData, setSelectedRowData] = useState(null);
 
-  // Effect to fetch products and categories when the component mounts
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        // Fetch both products and categories simultaneously
-        const [productsResponse, categoriesResponse] = await Promise.all([
-          api.get("/products"),
-          api.get("/categories"),
-        ]);
-
-        // Update state with fetched data
-        setProducts(productsResponse.data.products);
-        setCategories(categoriesResponse.data.categories);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { products, setProducts, categories, loading } =
+    useContext(DashboardContext);
 
   // Function to toggle the form visibility
   const toggleForm = () => {
@@ -86,7 +63,7 @@ const Products = () => {
             Add Product
           </button>
         </div>
-        <div className="w-full md:w-[30%] flex border border-gray-300 items-center px-3 rounded-xl">
+        <div className="w-full md:w-[50%] lg-[25%] flex border border-gray-300 items-center px-3 rounded-xl">
           <FaSearch />
           <input
             type="text"

@@ -1,8 +1,15 @@
 import { FaCartPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
   return (
-    <div className="bg-white group mb-2 rounded-lg hover:shadow-uShape hover:scale-[1.009] transition-all duration-200 ease-in-out cursor-pointer">
+    <div
+      className="bg-white group mb-2 rounded-lg hover:shadow-uShape hover:scale-[1.009] transition-all duration-200 ease-in-out cursor-pointer"
+      onClick={() =>
+        navigate(`/product/${product._id}`, { state: { product } })
+      }
+    >
       <img
         className="w-full h-40 p-1 pt-1.5 rounded-t-lg"
         src={product.image.secure_url}

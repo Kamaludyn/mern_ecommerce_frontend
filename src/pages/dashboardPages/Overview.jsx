@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import {
   FaBoxOpen,
   FaHeadset,
@@ -8,68 +8,49 @@ import {
   FaWarehouse,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
+import { DashboardContext } from "../../context/DashboardContext";
 
 const Overview = () => {
-  const [counts, setCounts] = useState({ prodCount: 0, cateCount: 0 });
+  const { counts } = useContext(DashboardContext);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProductCount = async () => {
-      try {
-        const [productRes, categoryRes] = await Promise.all([
-          api.get("/products/count"),
-          api.get("/categories/count"),
-        ]);
-        const productCount = productRes.data.productCount;
-        const categoriesCount = categoryRes.data.categoriesCount;
-        setCounts({
-          prodCount: productCount,
-          cateCount: categoriesCount,
-        });
-      } catch (error) {
-        console.error("Error fetching product count:", error);
-      }
-    };
-
-    fetchProductCount();
-  }, []);
-
+  // Array to hold the card contents for each section of the dashboard
   const cardContents = [
     {
       title: "Users",
       amount: 0,
-      icon: <FaUserFriends className="" />,
+      icon: <FaUserFriends />,
       path: "/dashboard/users",
     },
     {
       title: "Products",
-      amount: counts.prodCount,
-      icon: <FaBoxOpen className="" />,
+      amount: counts.productCount,
+      icon: <FaBoxOpen />,
       path: "/dashboard/products",
     },
     {
       title: "Categories",
-      amount: counts.cateCount,
-      icon: <FaTags className="" />,
+      amount: counts.categoryCount,
+      icon: <FaTags />,
       path: "/dashboard/categories",
     },
     {
       title: "Orders",
       amount: 0,
-      icon: <FaShoppingCart className="" />,
+      icon: <FaShoppingCart />,
       path: "/dashboard/orders",
     },
     {
       title: "Inventory",
       amount: 0,
-      icon: <FaWarehouse className="" />,
+      icon: <FaWarehouse />,
       path: "/dashboard/inventory",
     },
     {
       title: "Support",
       amount: 0,
-      icon: <FaHeadset className="" />,
+      icon: <FaHeadset />,
       path: "/dashboard/support",
     },
   ];
