@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import api from "../services/api"; // Your API instance
+import api from "../services/api";
 
 export const AppContext = createContext();
 
@@ -9,11 +9,11 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [categoryProducts, setCategoryProducts] = useState({});
 
-    // useEffect runs on initial component mount to fetch the products and categories
+  // useEffect runs on initial component mount to fetch the products and categories
   useEffect(() => {
     const fetchData = async () => {
       try {
-         // Fetch products and categories at the same time using Promise.all for efficiency
+        // Fetch products and categories at the same time using Promise.all for efficiency
         const [productRes, categoryRes] = await Promise.all([
           api.get("/products"),
           api.get("/categories"),

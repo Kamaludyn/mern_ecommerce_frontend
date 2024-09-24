@@ -21,12 +21,19 @@ import Settings from "./pages/dashboardPages/Settings";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import ProductPreview from "./pages/ProductPreview";
 import { DashboardProvider } from "./context/DashboardContext";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <MainLayout />,
+      element: (
+        <CartProvider>
+          <AppProvider>
+            <MainLayout />,
+          </AppProvider>
+        </CartProvider>
+      ),
       children: [
         {
           path: "",
@@ -106,7 +113,7 @@ function App() {
     },
   ]);
   return (
-    <AppProvider>
+    <>
       <RouterProvider router={router} />
       <ToastContainer
         position="top-center"
@@ -119,7 +126,7 @@ function App() {
         theme="light"
         transition={Bounce}
       />
-    </AppProvider>
+    </>
   );
 }
 

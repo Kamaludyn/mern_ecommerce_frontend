@@ -48,7 +48,7 @@ const Hero = () => {
 
   return (
     <section className="bg-white w-[90%] md:w-[80%] h-full flex md:flex-row items-center justify-between gap-4 flex-wrap p-2 mb-5 mx-auto rounded-2xl shadow-lg">
-      <div className="bg-transparent w-full md:w-[21%] lg:w-[19%]  md:h-full flex md:flex-col justify-between rounded-xl gap-3 md:gap-2">
+      <div className="bg-transparent w-full md:w-[21%] lg:w-[18%]  md:h-full flex md:flex-col justify-between rounded-xl gap-3 md:gap-2">
         {leftBanners.map((banner, index) => (
           <div
             key={index}
@@ -62,7 +62,7 @@ const Hero = () => {
           </div>
         ))}
       </div>
-      <div className="order-first group md:order-none bg-white w-full h-[40vh] md:w-[50%] lg:w-[58%] md:h-[55vh] rounded-xl relative">
+      <div className="order-first group md:order-none bg-white w-full h-[40vh] md:w-[51%] lg:w-[58%] xl:w-[59%] md:h-[55vh] rounded-xl relative">
         <img
           src={heroImages[currentIndex].img}
           className="w-full h-full object-center rounded-xl"
@@ -89,7 +89,7 @@ const Hero = () => {
           ))}
         </div>
       </div>
-      <div className="bg-transparent w-full md:w-[21%] lg:w-[19%] md:h-full flex md:flex-col justify-between rounded-xl gap-3 md:gap-2">
+      <div className="bg-transparent w-full md:w-[21%] lg:w-[18%] md:h-full flex md:flex-col justify-between rounded-xl gap-3 md:gap-2">
         {rightBanners.map((banner, index) => (
           <div
             key={index}

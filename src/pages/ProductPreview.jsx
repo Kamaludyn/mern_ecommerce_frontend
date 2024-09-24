@@ -10,7 +10,7 @@ const ProductPreview = () => {
   const { product } = location.state;
   return (
     <section className="h-full lg:px-20 lg:flex justify-center lg:items-start lg:gap-10 mb-10">
-      <ProdPrevImageSection image={product.image.secure_url} />
+      <ProdPrevImageSection product={product} />
       <ProdPrevDetailsSection product={product} />
     </section>
   );

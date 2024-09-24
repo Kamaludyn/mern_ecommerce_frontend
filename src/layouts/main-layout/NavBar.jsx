@@ -9,11 +9,18 @@ import { Twirl as Hamburger } from "hamburger-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Menu from "../../components/Menu";
+import { useCart } from "../../context/CartContext";
+import Cart from "../../components/Cart";
 
 const NavBar = () => {
   const [isOpen, setOpen] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
+
+  const { quantity } = useCart();
+
   const navigate = useNavigate();
 
+  // Function to check if user is logged in
   const navigateUser = () => {
     // Check if the token exists in localStorage
     const token = localStorage.getItem("token");
@@ -78,13 +85,22 @@ const NavBar = () => {
             <div className="flex">
               <FaQuestionCircle className="text-2xl text-text-primary hover:text-accent transition-colors duration-100 ease-in-out cursor-pointer" />
             </div>
-            <div className="flex">
-              <FaShoppingCart className="text-2xl text-text-primary hover:text-accent transition-colors duration-100 ease-in-out cursor-pointer" />
+            <div className="flex relative group">
+              {quantity > 0 && (
+                <span className="absolute w-full -top-2 -right-2 md:-top-4 md:-right-4 bg-accent text-[0.6rem] text-center md:px-2 text-white rounded-full">
+                  {quantity}
+                </span>
+              )}
+              <FaShoppingCart
+                className="text-2xl text-text-primary hover:text-accent transition-colors duration-100 ease-in-out cursor-pointer"
+                onClick={() => setOpenCart(!openCart)}
+              />
             </div>
           </div>
         </nav>
         <Menu isOpen={isOpen} closeMenu={closeMenu} />
       </header>
+      {openCart && <Cart />}
     </>
   );
 };

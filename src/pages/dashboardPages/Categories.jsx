@@ -6,35 +6,13 @@ import { FaEdit, FaExclamationCircle, FaTrash } from "react-icons/fa";
 import { DashboardContext } from "../../context/DashboardContext";
 
 const Categories = () => {
-  // const [categories, setCategories] = useState([]);
   const [categoryInput, setCategoryInput] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  // const [error, setError] = useState(false);
 
   const { categories, setCategories, loading, error } =
     useContext(DashboardContext);
-
-  // // Fetch categories from the API when the component mounts
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await api.get("/categories");
-  //       const fetchedCategories = response.data.categories;
-  //       setCategories(fetchedCategories);
-  //       console.log(fetchedCategories);
-  //     } catch (error) {
-  //       setError(true);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCategories();
-  // }, []);
 
   // Handle creating or updating a category
   const handleSubmit = async (e) => {
@@ -115,15 +93,15 @@ const Categories = () => {
             <span>Check your network Connection</span>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {categories.map((category) => (
               <div
                 id="category-card"
-                className="group flex items-center justify-between gap-3 text-medium p-4 pl-10 md:text-lg bg-orange-300 hover:bg-orange-400 rounded-lg cursor-pointer"
+                className="group flex items-center justify-between gap-3 text-medium text-center p-4 md:text-lg bg-orange-300 hover:bg-orange-400 rounded-lg cursor-pointer"
                 key={category._id}
               >
                 <span>{category.name}</span>
-                <div className="md:opacity-0 group-hover:opacity-100">
+                <div className="md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in">
                   <FaEdit
                     className="text-orange-200 hover:text-orange-100 mb-3"
                     onClick={() => handleEdit(category)}
