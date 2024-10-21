@@ -3,10 +3,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "./layouts/main-layout/MainLayout";
+import { DashboardProvider } from "./context/DashboardContext";
+import { CartProvider } from "./context/CartContext";
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
 import Login from "./pages/Login";
-import CreateAccount from "./pages/CreateAccount";
 import ProfilePage from "./pages/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
 import Overview from "./pages/dashboardPages/Overview";
@@ -20,8 +21,9 @@ import Inventory from "./pages/dashboardPages/Inventory";
 import Settings from "./pages/dashboardPages/Settings";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import ProductPreview from "./pages/ProductPreview";
-import { DashboardProvider } from "./context/DashboardContext";
-import { CartProvider } from "./context/CartContext";
+import DashboardLogin from "./pages/dashboardPages/DashboardLogin";
+import { AuthProvider } from "./context/AuthContext";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const router = createBrowserRouter([
@@ -48,8 +50,8 @@ function App() {
           element: <ProductPreview />,
         },
         {
-          path: "/create-account",
-          element: <CreateAccount />,
+          path: "/Signup",
+          element: <SignUp />,
         },
         {
           path: "/login",
@@ -66,11 +68,21 @@ function App() {
       ],
     },
     {
+      path: "/dashboard/login",
+      element: (
+        <AuthProvider>
+          <DashboardLogin />
+        </AuthProvider>
+      ),
+    },
+    {
       path: "/dashboard",
       element: (
-        <DashboardProvider>
-          <DashboardLayout />,
-        </DashboardProvider>
+        <AuthProvider>
+          <DashboardProvider>
+            <DashboardLayout />,
+          </DashboardProvider>
+        </AuthProvider>
       ),
       children: [
         {

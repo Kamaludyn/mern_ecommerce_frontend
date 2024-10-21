@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
 
@@ -28,7 +28,7 @@ export const CartProvider = ({ children }) => {
   };
 
   // Function to add a product to the cart
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = (product, quantity) => {
     setCartItems((prevItems) => {
       // Check if the product already exists in the cart
       const existingItemIndex = prevItems.findIndex(
@@ -36,19 +36,26 @@ export const CartProvider = ({ children }) => {
       );
 
       if (existingItemIndex >= 0) {
-        // If the item already exists, update the quantity
+        // If the item already exists, update the quantity safely
         const updatedItems = [...prevItems];
-        updatedItems[existingItemIndex].quantity += quantity;
-        return updatedItems;
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: updatedItems[existingItemIndex].quantity + quantity, // Increment based on passed quantity
+        };
+        return updatedItems; // Return the updated cart
       } else {
-        // If it doesn't exist, add the product with the specified quantity
+        // If it doesn't exist, add the product with the passed quantity
         return [...prevItems, { ...product, quantity }];
       }
     });
 
     // Update the total quantity of items in the cart
-    setQuantity((prevQuantity) => prevQuantity + quantity);
+    setQuantity((prevQuantity) => prevQuantity + quantity); // Correctly update by the passed quantity
   };
+
+  // useEffect(() => {
+  //   addToCart();
+  // }, [addToCart]);
 
   // Function to remove a product from the cart
   const removeFromCart = (productId) => {

@@ -13,9 +13,12 @@ import {
 import api from "../services/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ClipLoader from "react-spinners/ClipLoader";
 
-const CreateAccount = () => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const userRef = useRef();
 
   const navigate = useNavigate();
@@ -31,8 +34,9 @@ const CreateAccount = () => {
   };
 
   // Function to handle account creation form submission
-  const handleCreateAccount = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     // Accessing form inputs
     const createAcctForm = e.target;
@@ -74,13 +78,15 @@ const CreateAccount = () => {
         // Catch-all for any other errors
         toast.error("An error occured");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       <form
-        onSubmit={handleCreateAccount}
+        onSubmit={handleSignUp}
         className="flex flex-col items-center justify-center w-full max-w-sm mt-0 mb-5 mx-auto py-6 px-4 bg-white shadow-md rounded-md space-y-2"
       >
         <div className="flex items-center w-full">
@@ -172,9 +178,14 @@ const CreateAccount = () => {
 
         <button
           type="submit"
-          className="w-full bg-accent hover:bg-opacity-90 text-white py-1.5 px-3 rounded-md transition"
+          className="w-full bg-accent hover:bg-opacity-90 text-white py-3 px-3 rounded-md transition"
+          disabled={loading}
         >
-          Create Account
+          {loading ? (
+            <ClipLoader color="#ffffff" size={18} className="m-[-3px]" />
+          ) : (
+            "Sign Up"
+          )}
         </button>
 
         <div className="text-sm">
@@ -188,4 +199,4 @@ const CreateAccount = () => {
   );
 };
 
-export default CreateAccount;
+export default SignUp;

@@ -6,13 +6,13 @@ const Cart = () => {
   return (
     <section
       id="cart-section"
-      className="fixed top-12 md:top-16 right-5 bg-bg w-4/5 md:w-2/6 md:min-w-[33.333%] p-4 rounded-lg drop-shadow-lg shadow-lg z-[60] overflow-y-auto"
+      className="fixed top-12 md:top-16 right-5 bg-bg w-4/5 md:w-2/6 md:min-w-[33.333%] p-4 rounded-lg drop-shadow-lg shadow-lg z-[60] max-h-[88vh] overflow-y-auto"
     >
       <h1 className="font-semibold p-1.5 pt-0 border-b-2">Cart</h1>
 
       <div className="flex flex-col items-center gap-3 my-3 text-sm md:text-base">
         {cartItems.length > 0 ? (
-          cartItems.map((item, index) => (
+          cartItems.map((item) => (
             <div
               key={item._id}
               className="w-full flex items-center justify-between gap-1 text-text-primary pb-2 border-b border-gray-300 "
@@ -22,15 +22,15 @@ const Cart = () => {
                 src={item.image.secure_url}
                 alt=""
               />
-              <p className="flex flex-col items-center">
+              <p className="flex flex-col items-center text-center">
                 {item.name}
                 <span>
-                  ${item.price} x {item.quantity} ={" "}
-                  <strong>${(item.price * item.quantity).toFixed(2)}</strong>
+                  ${item.price} x {item.quantity}Pcs =
+                  <strong> ${(item.price * item.quantity).toFixed(2)}</strong>
                 </span>
               </p>
               <FaTrash
-                className="text-base text-rose-500 cursor-pointer"
+                className="text-base min-w-4 text-rose-500 cursor-pointer"
                 onClick={() => removeFromCart(item._id)}
               />
             </div>

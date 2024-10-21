@@ -6,13 +6,13 @@ import Header from "./Header";
 const DashboardNav = () => {
   const [isOpen, setOpen] = useState(false);
 
-  const openMenu = () => {
+  const toggleMenu = () => {
     setOpen(!isOpen);
   };
   return (
     <>
-      <Header openMenu={openMenu} />
-      <SideBarNav isOpen={isOpen} />
+      <Header toggleMenu={toggleMenu} />
+      <SideBarNav isOpen={isOpen} toggleMenu={toggleMenu} />
     </>
   );
 };

@@ -2,6 +2,7 @@ import api from "../services/api";
 import React, { useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaKey } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -90,7 +91,7 @@ const Login = () => {
           }`}
           disabled={loading}
         >
-          {loading ? "Loading..." : "Login"}
+          {loading ? <ClipLoader color="#ffffff" size={18} /> : "Login"}
         </button>
 
         <div>

@@ -64,7 +64,7 @@ const Menu = ({ isOpen, closeMenu }) => {
               {/* Dropdown for categories on hover */}
               <div
                 id="dropDownCategories"
-                className="fixed top-[113px] left-[120px] w-[250px] p-4 bg-white text-text-primary shadow-uShape hidden md:group-hover:block"
+                className="fixed top-[113px] left-[8%] w-[250px] max-h-[80vh] p-4 bg-white text-text-primary shadow-uShape hidden md:group-hover:block overflow-y-auto"
               >
                 <ul className="flex flex-col gap-2 z-50 divide-y-2">
                   {categories.map((category) => (

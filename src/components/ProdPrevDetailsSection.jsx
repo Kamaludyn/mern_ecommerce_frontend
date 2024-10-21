@@ -25,9 +25,12 @@ const ProdPrevDetailsSection = ({ product }) => {
           // If the product already exists, create a copy of the cart items
           const updatedItems = [...prevItems];
 
+          updatedItems[existingItemIndex] = {
+            ...updatedItems[existingItemIndex],
+            quantity: updatedItems[existingItemIndex].quantity + count,
+          };
           // Update the quantity of the existing product by adding the current count
-          updatedItems[existingItemIndex].quantity += count;
-
+          // updatedItems[existingItemIndex].quantity += count;
           // Return the updated cart items array
           return updatedItems;
         } else {

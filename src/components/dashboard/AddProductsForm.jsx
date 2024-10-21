@@ -4,6 +4,7 @@ import api from "../../services/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DashboardContext } from "../../context/DashboardContext";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
   const [loading, setLoading] = useState(false);
@@ -110,7 +111,6 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           `/products/${selectedRowData._id}`,
           formInputData
         );
-        // console.log("Edit Response", editResponse.data);
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
             product._id === selectedRowData._id
@@ -126,12 +126,17 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
       } else {
         // Create new product
         const createResponse = await api.post("/products", formInputData);
-        // console.log("Create Response", createResponse.data);
         setProducts([...products, createResponse.data]);
         toast.success("Product added successfully!");
       }
     } catch (error) {
-      toast.error("An error occurred while submitting the form.");
+      if (error.request) {
+        // Client never received a response, or request never left
+        toast.error("Network error. Please check your internet connection.");
+      } else {
+        // Catch All (e.g., request setup issues)
+        toast.error("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
       toggleForm();
@@ -242,11 +247,13 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           }`}
           disabled={loading}
         >
-          {loading
-            ? "Loading..."
-            : selectedRowData
-            ? "Update Product"
-            : "Add Product"}
+          {loading ? (
+            <ClipLoader color="#ffffff" size={18} />
+          ) : selectedRowData ? (
+            "Update Product"
+          ) : (
+            "Add Product"
+          )}
         </button>
       </form>
     </section>
