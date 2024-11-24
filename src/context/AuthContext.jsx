@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUsers = async () => {
       try {
         if (!token) {
-          toast("You need to Login");
+          toast.error("You need to Login");
           navigate("/dashboard/login");
           return;
         }

@@ -29,6 +29,7 @@ import MyProfile from "./pages/MyProfile";
 import MyOrders from "./pages/MyOrders";
 import RecentlyViewed from "./pages/RecentlyViewed";
 import ProfileSettings from "./pages/ProfileSettings";
+import DashboardPrivateRoute from "./components/dashboard/DashboardPrivateRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -105,11 +106,13 @@ function App() {
     {
       path: "/dashboard",
       element: (
-        <AuthProvider>
-          <DashboardProvider>
-            <DashboardLayout />,
-          </DashboardProvider>
-        </AuthProvider>
+        <DashboardPrivateRoute>
+          <AuthProvider>
+            <DashboardProvider>
+              <DashboardLayout />,
+            </DashboardProvider>
+          </AuthProvider>
+        </DashboardPrivateRoute>
       ),
       children: [
         {
