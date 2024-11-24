@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [users, setUsers] = useState(null);
   // Initialize token and user state from localStorage or set to null
   const [token, setToken] = useState(
     () => localStorage.getItem("authToken") || null
@@ -16,6 +17,41 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+  }, []);
+
+  // Effect to fetch users on initial render
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        if (!token) {
+          toast("You need to Login");
+          navigate("/dashboard/login");
+          return;
+        }
+        const userRes = await api.get("/Users", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUsers(userRes.data.users);
+      } catch (error) {
+        if (error.message === "Network Error") {
+          toast.error("Please check your network connection");
+        } else if (error.response?.data.error === "jwt expired") {
+          // Expired token error
+          toast.error("Session expired: Please login again");
+          navigate("/dashboard/login");
+        }
+      }
+    };
+    fetchUsers();
+  }, []);
+
   // Function to log in the user
   const login = (token, userData) => {
     setToken(token);
@@ -23,10 +59,11 @@ export const AuthProvider = ({ children }) => {
 
     // Store token and user in localStorage
     localStorage.setItem("authToken", token);
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  // Function to log out the user
+  // Function to log out user
   const logout = async () => {
     const confirmDelete = confirm("Are you sure you want to logout?");
     if (!confirmDelete) return;
@@ -34,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const userId = user ? user._id : null;
       if (userId) {
-        // Make an API request to log out the user
+        // Make an API request to log out user
         await api.post(`users/logout/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,7 +101,9 @@ export const AuthProvider = ({ children }) => {
   }, [token, user]);
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ token, user, users, setUsers, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

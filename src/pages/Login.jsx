@@ -1,15 +1,20 @@
 import api from "../services/api";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaKey } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AppContext } from "../context/AppContext";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+
   const userRef = useRef();
+
   const navigate = useNavigate();
+
+  const { loginCstmr } = useContext(AppContext);
 
   // useEffect to focus on the email input when the component is rendered
   useEffect(() => {
@@ -31,12 +36,16 @@ const Login = () => {
     };
 
     try {
-      const Login = await api.post("/customers/login", formData);
-      // If login is successful, store the token in localStorage
-      localStorage.setItem("token", Login.data.accessToken);
+      const loginRes = await api.post("/customers/login", formData);
+
+      // Extract customer and access token from login response
+      const { customer, accessToken } = loginRes.data;
+      loginCstmr(customer, accessToken);
 
       toast.success("Login successful");
-      navigate("/profile");
+
+      // Navigate customer to home page after a successful login
+      navigate("/");
     } catch (error) {
       if (!error.response) {
         // Network error (e.g., no internet connection)
@@ -45,7 +54,7 @@ const Login = () => {
         // Bad request (e.g., invalid login credentials)
         toast.error(error.response.data.message);
       } else {
-        // Catch-all for any other errors
+        // Catch-all for any unexpected errors
         toast.error("An Error Occured");
       }
     } finally {
@@ -102,7 +111,7 @@ const Login = () => {
         </div>
         <div>
           Don't have an Account?{" "}
-          <Link to="/create-account" className="text-accent">
+          <Link to="/signup" className="text-accent">
             Create Account
           </Link>
         </div>

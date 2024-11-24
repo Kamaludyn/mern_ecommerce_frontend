@@ -21,8 +21,7 @@ const CategoryPage = () => {
   const categoryName = params.get("name");
 
   // Accessing context values, including products, fetching function, and loading state
-  const { categoryProducts, getProductsByCategory, loading } =
-    useContext(AppContext);
+  const { categoryProducts, getProductsByCategory } = useContext(AppContext);
 
   // Fetch products based on the category ID
   useEffect(() => {
@@ -42,7 +41,7 @@ const CategoryPage = () => {
     <section className=" w-[90%] md:w-[80%] mx-auto text-text-primary">
       <div>
         <ul className="hidden md:flex gap-2">
-          <li className="cursor-pointer">
+          <li className="hover:text-accent cursor-pointer">
             <Link to="/">Home</Link>
             <FaChevronRight className="inline text-sm ml-2 text-text-secondary cursor-default" />
           </li>
@@ -54,17 +53,6 @@ const CategoryPage = () => {
       <h1 className="bg-white p-2.5 my-5 text-center text-3xl font-semibold capitalize ">
         {categoryName}
       </h1>
-      <div id="shopByCategory" className="bg-white w-full mb-5 rounded-t-lg">
-        <h2 className="w-full p-3 rounded-t-lg capitalize">Shop by Category</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 animate-pulse rounded h-50 w-full p-2 mb-2">
-          <div className="bg-gray-300 h-40 rounded"></div>
-          <div className="bg-gray-300 h-40 rounded"></div>
-          <div className="bg-gray-300 h-40 rounded"></div>
-          <div className="bg-gray-300 h-40 rounded"></div>
-          <div className="bg-gray-300 h-40 rounded"></div>
-          <div className="bg-gray-300 h-40 rounded"></div>
-        </div>
-      </div>
       <div
         id="combinedCatContent"
         className="bg-white w-full mb-5 rounded-t-lg"

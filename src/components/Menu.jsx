@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 const Menu = ({ isOpen, closeMenu }) => {
   const [categories, setCategories] = useState([]);
@@ -36,7 +37,12 @@ const Menu = ({ isOpen, closeMenu }) => {
         // Update the categories state with the sorted categories
         setCategories(sortedCategories);
       } catch (error) {
-        console.error("Error fetching categories", error);
+        if (error.request) {
+          // Request was made, but no response received
+          toast.error("Please check your network connection");
+        } else {
+          toast.error("An unexxpected error occured");
+        }
       }
     };
 
@@ -66,9 +72,12 @@ const Menu = ({ isOpen, closeMenu }) => {
                 id="dropDownCategories"
                 className="fixed top-[113px] left-[8%] w-[250px] max-h-[80vh] p-4 bg-white text-text-primary shadow-uShape hidden md:group-hover:block overflow-y-auto"
               >
-                <ul className="flex flex-col gap-2 z-50 divide-y-2">
+                <ul className="flex flex-col gap-2 z-50 divide-y-2 ">
                   {categories.map((category) => (
-                    <li key={category._id} className="hover:text-accent py-1">
+                    <li
+                      key={category._id}
+                      className="hover:text-accent py-1 pl-1"
+                    >
                       <NavLink
                         to={`/category/${category._id}?name=${category.name}`}
                         onClick={closeMenu}
@@ -76,9 +85,7 @@ const Menu = ({ isOpen, closeMenu }) => {
                           isActive ? "text-accent" : ""
                         }
                       >
-                        {category.name === "Phones"
-                          ? "Phones & Accesories"
-                          : category.name}
+                        {category.name}
                       </NavLink>
                     </li>
                   ))}
@@ -86,9 +93,6 @@ const Menu = ({ isOpen, closeMenu }) => {
               </div>
               {/* Dropdown categorires End */}
             </div>
-            <span className="order-1 p-4 pl-5 md:p-0 md:pr-3 md:border-r-2 hover:text-accent whitespace-nowrap cursor-pointer">
-              Featured selection
-            </span>
           </div>
           {/* Main categories menu */}
           <div className="flex flex-col md:flex-row justify-between flex-grow md:gap-10 my-0 w-full divide-y">

@@ -7,14 +7,16 @@ import {
 } from "react-icons/fa";
 import { Twirl as Hamburger } from "hamburger-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Menu from "../../components/Menu";
 import { useCart } from "../../context/CartContext";
 import Cart from "../../components/Cart";
+import { AppContext } from "../../context/AppContext";
 
 const NavBar = () => {
   const [isOpen, setOpen] = useState(false);
-  const [openCart, setOpenCart] = useState(false);
+
+  const { setOpenCart, openCart } = useContext(AppContext);
 
   const { quantity } = useCart();
 
@@ -23,7 +25,7 @@ const NavBar = () => {
   // Function to check if user is logged in
   const navigateUser = () => {
     // Check if the token exists in localStorage
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
 
     if (token) {
       // If token exists, navigate to the profile page
@@ -37,6 +39,12 @@ const NavBar = () => {
   // Function to close menu on small screen
   const closeMenu = () => {
     setOpen(false);
+  };
+
+  // Function to toggle cart state
+  const handleCartToggle = (event) => {
+    event.stopPropagation(); // Prevents this click from triggering other event listeners (like outside click)
+    setOpenCart((prev) => !prev);
   };
 
   return (
@@ -81,19 +89,18 @@ const NavBar = () => {
               onClick={navigateUser}
               className="text-2xl text-text-primary hover:text-accent transition-colors duration-100 ease-in-out cursor-pointer"
             />
-
             <div className="flex">
               <FaQuestionCircle className="text-2xl text-text-primary hover:text-accent transition-colors duration-100 ease-in-out cursor-pointer" />
             </div>
             <div className="flex relative group">
               {quantity > 0 && (
-                <span className="absolute w-full -top-2 -right-2 md:-top-4 md:-right-4 bg-accent text-[0.6rem] text-center md:px-2 text-white rounded-full">
+                <span className="absolute p-0.5 px-2 md:w-fit bottom-3 left-3 md:bottom-2 md:left-4 bg-accent text-[0.6rem] text-center md:p-0 md:px-2 text-white rounded-full">
                   {quantity}
                 </span>
               )}
               <FaShoppingCart
-                className="text-2xl text-text-primary hover:text-accent transition-colors duration-100 ease-in-out cursor-pointer"
-                onClick={() => setOpenCart(!openCart)}
+                className="cart-icon text-2xl text-text-primary hover:text-accent transition-colors duration-100 ease-in-out cursor-pointer"
+                onClick={handleCartToggle}
               />
             </div>
           </div>

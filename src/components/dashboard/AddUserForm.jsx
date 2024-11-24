@@ -3,6 +3,7 @@ import { FaTimes } from "react-icons/fa";
 import api from "../../services/api";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddUserForm = ({ toggleForm, selectedUserData }) => {
   const [users, setUsers] = useState([]);
@@ -20,6 +21,8 @@ const AddUserForm = ({ toggleForm, selectedUserData }) => {
     password: "",
     role: "",
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedUserData) {
@@ -62,21 +65,23 @@ const AddUserForm = ({ toggleForm, selectedUserData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("formData", formData);
+    setLoading(true);
 
     const token = localStorage.getItem("authToken");
 
-    const formInputData = new FormData();
-
-    formInputData.append("surname", formData.surname);
-    formInputData.append("othername", formData.othername);
-    formInputData.append("email", formData.email);
-    formInputData.append("phone", formData.phone);
-    formInputData.append("address[street]", formData.address.street);
-    formInputData.append("address[town]", formData.address.town);
-    formInputData.append("address[country]", formData.address.country);
-    formInputData.append("password", formData.password);
-    formInputData.append("role", formData.role);
+    const formInputData = {
+      surname: formData.surname,
+      othername: formData.othername,
+      email: formData.email,
+      phone: formData.phone,
+      address: {
+        street: formData.address.street,
+        town: formData.address.town,
+        country: formData.address.country,
+      },
+      password: formData.password,
+      role: formData.role,
+    };
 
     const config = {
       headers: {
@@ -86,7 +91,6 @@ const AddUserForm = ({ toggleForm, selectedUserData }) => {
 
     try {
       if (selectedUserData) {
-        console.log("Editing User");
         const editUserResponse = await api.put(
           `/users/${selectedUserData._id}`,
           formInputData,
@@ -115,13 +119,23 @@ const AddUserForm = ({ toggleForm, selectedUserData }) => {
         toggleForm();
       }
     } catch (error) {
-      if (error.request) {
-        // Client never received a response, or request never left
-        toast.error("Network error. Please check your internet connection.");
+      // #TODO: incomplete fields
+      if (error.message === "Network Error") {
+        // Network error
+        toast.error("Please check your network connection");
+      } else if (error.response?.data.error === "jwt expired") {
+        // Expired token error
+        toast.error("Session expired: Please login again");
+        navigate("/dashboard/login");
+      } else if (error.response?.status === 400) {
+        // Incomplete fields error
+        toast.error(error.response?.data.message);
       } else {
-        // Catch All (e.g., request setup issues)
+        // Catch all for any unexpected error
         toast.error("An error occurred. Please try again.");
       }
+    } finally {
+      setLoading(false);
     }
   };
   return (

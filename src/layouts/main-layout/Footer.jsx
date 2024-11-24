@@ -15,8 +15,8 @@ const Footer = () => {
   return (
     <>
       <Newsletter />
-      <section className=" bg-text-secondary">
-        <div className="flex flex-col lg:flex-row items-center justify-between lg:items-start gap-3 lg:gap-6 w-[90%] py-6 md:w-[80%] text-white mx-auto">
+      <footer className=" bg-text-secondary mt-0 -my-7 p-0">
+        <div className="flex flex-col lg:flex-row items-center justify-between lg:items-start gap-3 lg:gap-6 h-full w-[90%] py-6 md:w-[80%] text-white mx-auto">
           <div className="w-[90%] lg:w-[60%] flex flex-row justify-between gap-2 ">
             <div>
               <h2 className="font-semibold text-lg">Get to know us</h2>
@@ -89,7 +89,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </section>
+      </footer>
     </>
   );
 };

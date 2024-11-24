@@ -1,12 +1,38 @@
 import { FaTrash } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
+import { useContext, useEffect, useRef } from "react";
+import { AppContext } from "../context/AppContext";
 
 const Cart = () => {
-  const { cartItems, removeFromCart } = useCart();
+  const { cartItems, removeFromCart, handleCheckOut } = useCart();
+
+  const { openCart, customer, closeCart } = useContext(AppContext);
+
+  // Ref to the cart container for detecting outside clicks
+  const cartRef = useRef(null);
+
+  // Effect to handle closing the cart when clicking outside the cart container
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        closeCart();
+      }
+    };
+
+    // Add event listener when cart is open
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup event listener
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [openCart]);
+
   return (
     <section
       id="cart-section"
       className="fixed top-12 md:top-16 right-5 bg-bg w-4/5 md:w-2/6 md:min-w-[33.333%] p-4 rounded-lg drop-shadow-lg shadow-lg z-[60] max-h-[88vh] overflow-y-auto"
+      ref={cartRef}
     >
       <h1 className="font-semibold p-1.5 pt-0 border-b-2">Cart</h1>
 
@@ -31,14 +57,19 @@ const Cart = () => {
               </p>
               <FaTrash
                 className="text-base min-w-4 text-rose-500 cursor-pointer"
-                onClick={() => removeFromCart(item._id)}
+                onClick={(event) => {
+                  event.stopPropagation(), removeFromCart(item._id);
+                }}
               />
             </div>
           ))
         ) : (
           <p className="my-5">Your Cart is empty</p>
         )}
-        <button className="bg-accent hover:opacity-80 text-white w-full font-semibold p-2 rounded-lg">
+        <button
+          className="bg-accent hover:opacity-80 text-white w-full font-semibold p-2 rounded-lg"
+          onClick={() => handleCheckOut(customer.id)}
+        >
           Check Out
         </button>
       </div>

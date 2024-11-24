@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import UsersDataTable from "../../components/dashboard/UsersDataTable";
 import AddUserForm from "../../components/dashboard/AddUserForm";
@@ -6,41 +6,14 @@ import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthContext from "../../context/AuthContext";
-import { DashboardContext } from "../../context/DashboardContext";
 
 const Users = () => {
   const [openForm, setOpenForm] = useState(false);
-  // const [users, setUsers] = useState([]);
   const [selectedUserData, setSelectedUserData] = useState({});
 
   const navigate = useNavigate();
 
-  const { users, loading } = useContext(DashboardContext);
-  const { token } = useContext(AuthContext);
-
-  // Effect to fetch users on initial render
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       if (!token) {
-  //         toast("You need to Login");
-  //         navigate("/dashboard/login");
-  //         return;
-  //       }
-  //       const userRes = await api.get("/Users", {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       setUsers(userRes.data.users);
-  //     } catch (error) {
-  //       if (error.message === "Network Error") {
-  //         toast.error("Check your network connection");
-  //       }
-  //     }
-  //   };
-  //   fetchUsers();
-  // }, []);
+  const { token, users, setUsers } = useContext(AuthContext);
 
   // Function to toggle the visibility of the AddUserForm
   const toggleForm = () => {
@@ -121,7 +94,7 @@ const Users = () => {
           />
         </div>
       </header>
-      {loading ? (
+      {users?.lenght === 0 ? (
         <Spinner />
       ) : (
         <UsersDataTable

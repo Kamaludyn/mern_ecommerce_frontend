@@ -24,6 +24,11 @@ import ProductPreview from "./pages/ProductPreview";
 import DashboardLogin from "./pages/dashboardPages/DashboardLogin";
 import { AuthProvider } from "./context/AuthContext";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
+import MyProfile from "./pages/MyProfile";
+import MyOrders from "./pages/MyOrders";
+import RecentlyViewed from "./pages/RecentlyViewed";
+import ProfileSettings from "./pages/ProfileSettings";
 
 function App() {
   const router = createBrowserRouter([
@@ -58,12 +63,34 @@ function App() {
           element: <Login />,
         },
         {
+          path: "/forgot-password",
+          element: <ForgotPassword />,
+        },
+        {
           path: "/profile",
           element: (
             <PrivateRoute>
               <ProfilePage />,
             </PrivateRoute>
           ),
+          children: [
+            {
+              path: "",
+              element: <MyProfile />,
+            },
+            {
+              path: "my-orders",
+              element: <MyOrders />,
+            },
+            {
+              path: "recently-viewed",
+              element: <RecentlyViewed />,
+            },
+            {
+              path: "settings",
+              element: <ProfileSettings />,
+            },
+          ],
         },
       ],
     },

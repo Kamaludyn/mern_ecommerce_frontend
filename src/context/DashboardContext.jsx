@@ -7,7 +7,6 @@ export const DashboardContext = createContext();
 export const DashboardProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [counts, setCounts] = useState({ productCount: 0, categoryCount: 0 });
@@ -57,33 +56,6 @@ export const DashboardProvider = ({ children }) => {
     fetchProductCount();
   }, []);
 
-  // Fetching users on initial render
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        if (!token) {
-          toast("You need to Login");
-          navigate("/dashboard/login");
-          return;
-        }
-        const userRes = await api.get("/Users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUsers(userRes.data.users);
-      } catch (error) {
-        if (error.message === "Network Error") {
-          toast.error("Check your network connection");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, []);
-
   return (
     <DashboardContext.Provider
       value={{
@@ -91,7 +63,6 @@ export const DashboardProvider = ({ children }) => {
         categories,
         setCategories,
         setProducts,
-        users,
         loading,
 
         counts,

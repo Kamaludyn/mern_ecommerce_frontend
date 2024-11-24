@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { FaMinus, FaPlus, FaShoppingCart } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 
@@ -11,6 +11,11 @@ const ProdPrevDetailsSection = ({ product }) => {
     incrementCount,
     decrementCount,
   } = useCart();
+
+  // UseEffect to reset count on intial render
+  useEffect(() => {
+    setCount(0);
+  }, []);
 
   // Function to add product to the cart according to the input value
   const addCountToCart = () => {
@@ -25,12 +30,11 @@ const ProdPrevDetailsSection = ({ product }) => {
           // If the product already exists, create a copy of the cart items
           const updatedItems = [...prevItems];
 
+          // Update the quantity of the existing product by adding the current count
           updatedItems[existingItemIndex] = {
             ...updatedItems[existingItemIndex],
             quantity: updatedItems[existingItemIndex].quantity + count,
           };
-          // Update the quantity of the existing product by adding the current count
-          // updatedItems[existingItemIndex].quantity += count;
           // Return the updated cart items array
           return updatedItems;
         } else {
