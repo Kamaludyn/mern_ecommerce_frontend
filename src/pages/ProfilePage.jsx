@@ -15,22 +15,22 @@ const ProfilePage = () => {
   const listItems = [
     {
       label: "My Profile",
-      icon: <FaUser className="mr-2 text-2xl text-accent " />,
+      icon: <FaUser className="md:mr-2 text-2xl text-center text-accent " />,
       route: "/profile",
     },
     {
       label: "My Orders",
-      icon: <FaShoppingBag className="mr-2 text-2xl text-accent " />,
+      icon: <FaShoppingBag className="md:mr-2 text-2xl text-accent " />,
       route: "/profile/my-orders",
     },
     {
       label: "Recently Viewed",
-      icon: <FaEye className="mr-2 text-2xl text-accent " />,
+      icon: <FaEye className="md:mr-2 text-2xl text-accent " />,
       route: "/profile/recently-viewed",
     },
     {
       label: "Settings",
-      icon: <FaCogs className="mr-2 text-2xl text-accent " />,
+      icon: <FaCogs className="md:mr-2 text-2xl text-accent " />,
       route: "/profile/settings",
     },
   ];
@@ -46,7 +46,7 @@ const ProfilePage = () => {
             Hello, {customer.othername} {customer.surname}
           </h1>
         </div>
-        <ul className="absolute top-[70%] md:static md:min-h-[70vh] bg-white w-11/12 flex md:items-start items-center justify-between md:justify-normal gap-3 md:flex-col font-[600] p-4 shadow-uShape rounded-md">
+        <ul className="absolute top-[70%] md:static md:min-h-[70vh] bg-white w-11/12 flex md:items-start items-center justify-between md:justify-normal md:gap-3 md:flex-col font-[600] p-2 shadow-uShape rounded-md">
           {listItems.map((item, index) => (
             <NavLink
               key={index}
