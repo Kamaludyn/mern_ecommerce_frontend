@@ -49,7 +49,7 @@ const NavBar = () => {
 
   return (
     <>
-      <header className="bg-white w-full fixed top-0 z-50 overflow-x-hidden">
+      <header className="bg-white w-screen fixed top-0 z-50 overflow-x-hidden">
         <nav className=" w-[90%] md:w-[80%] relative text-xs md:text-base flex items-center justify-between pb-14 md:pb-0 md:mb-[5px] mx-auto">
           <div className="flex items-center w-1/2 md:w-[25%] p-0">
             <div className="md:hidden -ml-5">

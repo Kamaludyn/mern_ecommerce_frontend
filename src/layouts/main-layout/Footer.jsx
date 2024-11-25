@@ -15,7 +15,7 @@ const Footer = () => {
   return (
     <>
       <Newsletter />
-      <footer className=" bg-text-secondary mt-0 -my-7 p-0">
+      <footer className="w-screen bg-text-secondary mt-0 -my-7 p-0">
         <div className="flex flex-col lg:flex-row items-center justify-between lg:items-start gap-3 lg:gap-6 h-full w-[90%] py-6 md:w-[80%] text-white mx-auto">
           <div className="w-[90%] lg:w-[60%] flex flex-row justify-between gap-2 ">
             <div>
@@ -49,7 +49,7 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-          <div className="flex justify-between gap-3 w-[90%] lg:w-[45%] ">
+          <div className="flex justify-between flex-col md:flex-row gap-3 w-[90%] lg:w-[45%]">
             <div>
               <h2 className="font-semibold text-lg">Join Us</h2>
               <ul className="flex gap-3">
@@ -71,19 +71,19 @@ const Footer = () => {
               <h2 className="font-semibold text-lg">Payment & Delivery</h2>
               <ul className="flex gap-3">
                 <li>
-                  <FaCcMastercard className="text-5xl cursor-pointer text-white" />
+                  <FaCcMastercard className="text-3xl md:text-5xl cursor-pointer text-white" />
                 </li>
                 <li>
-                  <FaCcAmex className="text-5xl cursor-pointer text-white" />
+                  <FaCcAmex className="text-3xl md:text-5xl cursor-pointer text-white" />
                 </li>
                 <li>
-                  <FaCcVisa className="text-5xl cursor-pointer text-white" />
+                  <FaCcVisa className="text-3xl md:text-5xl cursor-pointer text-white" />
                 </li>
                 <li>
-                  <FaCcPaypal className="text-5xl cursor-pointer text-white" />
+                  <FaCcPaypal className="text-3xl md:text-5xl cursor-pointer text-white" />
                 </li>
                 <li>
-                  <FaCcApplePay className="text-5xl cursor-pointer text-white" />
+                  <FaCcApplePay className="text-3xl md:text-5xl cursor-pointer text-white" />
                 </li>
               </ul>
             </div>

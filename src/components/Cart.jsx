@@ -8,6 +8,8 @@ const Cart = () => {
 
   const { openCart, customer, closeCart } = useContext(AppContext);
 
+  const customerId = customer?.id;
+
   // Ref to the cart container for detecting outside clicks
   const cartRef = useRef(null);
 
@@ -31,7 +33,7 @@ const Cart = () => {
   return (
     <section
       id="cart-section"
-      className="fixed top-12 md:top-16 right-5 bg-bg w-4/5 md:w-2/6 md:min-w-[33.333%] p-4 rounded-lg drop-shadow-lg shadow-lg z-[60] max-h-[88vh] overflow-y-auto"
+      className="fixed top-12 md:top-16 right-5 bg-bg w-4/5 md:w-2/6 md:min-w-[33.333%] p-4 rounded-lg drop-shadow-lg shadow-uShape z-[60] max-h-[88vh] overflow-y-auto"
       ref={cartRef}
     >
       <h1 className="font-semibold p-1.5 pt-0 border-b-2">Cart</h1>
@@ -68,7 +70,7 @@ const Cart = () => {
         )}
         <button
           className="bg-accent hover:opacity-80 text-white w-full font-semibold p-2 rounded-lg"
-          onClick={() => handleCheckOut(customer.id)}
+          onClick={() => handleCheckOut(customerId)}
         >
           Check Out
         </button>

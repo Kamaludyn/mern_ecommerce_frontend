@@ -76,8 +76,13 @@ export const CartProvider = ({ children }) => {
 
   // Function to handle the checkout process
   const handleCheckOut = async (customerId) => {
-    console.log("handleCheckOut");
     try {
+      // Check if customer is logged in
+      if (!customerId) {
+        toast.error("Customer information is missing. Please log in again.");
+        return;
+      }
+
       // Create the order payload by mapping cart items into the required structure
       const orderItems = cartItems.map((item) => ({
         productId: item._id,
@@ -86,6 +91,7 @@ export const CartProvider = ({ children }) => {
 
       // Check if there is no item selected then do nothing
       if (orderItems.length < 1) {
+        toast.error("Your cart is empty. Please add items to your cart.");
         return;
       }
 
@@ -113,8 +119,8 @@ export const CartProvider = ({ children }) => {
       window.location.href = paystackUrl;
     } catch (error) {
       // Expired token error
-      if (error.response?.data.error === "jwt expired") {
-        toast.error("Please login and try again");
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login and try again.");
         navigate("/login");
         // Handle out of stock items
       } else if (error.status === 400) {
@@ -122,6 +128,7 @@ export const CartProvider = ({ children }) => {
       } else {
         // Catch all to handle unexpected errors
         toast.error("An unexpected error occurred. Please try again later.");
+        console.log("new cart", error);
       }
     }
   };
