@@ -2,13 +2,22 @@ import React, { useState, useEffect, useContext } from "react";
 import Spinner from "../../components/Spinner";
 import api from "../../services/api";
 import { toast } from "react-toastify";
-import { FaEdit, FaExclamationCircle, FaTrash } from "react-icons/fa";
+import {
+  FaEdit,
+  FaExclamationCircle,
+  FaPlus,
+  FaTimes,
+  FaTrash,
+} from "react-icons/fa";
 import { DashboardContext } from "../../context/DashboardContext";
+import ClipLoader from "react-spinners/ClipLoader";
+import AddCategoryForm from "../../components/dashboard/AddCategoryForm";
 
 const Categories = () => {
   const [categoryInput, setCategoryInput] = useState([]);
   const [formLoading, setFormLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [openInput, setOpenInput] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   const { categories, setCategories, loading, error } =
@@ -41,6 +50,7 @@ const Categories = () => {
         setEditMode(false);
         setCategoryInput("");
         setFormLoading(false);
+        setOpenInput(false);
       }
     } else {
       // Create a new category
@@ -52,6 +62,7 @@ const Categories = () => {
       } catch (error) {
         toast.error("Failed to create category");
       } finally {
+        setOpenInput(false);
         setCategoryInput("");
         setFormLoading(false);
       }
@@ -60,6 +71,7 @@ const Categories = () => {
 
   // Set edit mode and pre-fill the form with the selected category data
   const handleEdit = (category) => {
+    setOpenInput(true);
     setEditMode(true);
     setCategoryInput(category.name);
     setSelectedCategoryId(category._id);
@@ -81,9 +93,23 @@ const Categories = () => {
     }
   };
 
+  const handleInputClose = () => {
+    setOpenInput(false);
+    setEditMode(false);
+    setCategoryInput("");
+  };
+
   return (
     <section className="pt-1 text-text-primary">
-      <h1 className="text-h1 my-5">Categories</h1>
+      <div className="flex justify-between items-center my-5">
+        <h1 className="text-h1">Categories</h1>
+        <button
+          className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 px-5 py-3 text-white rounded-md"
+          onClick={() => setOpenInput(true)}
+        >
+          <FaPlus /> Add Category
+        </button>
+      </div>
       <div className="flex flex-col justify-between gap-7">
         {loading ? (
           <Spinner />
@@ -115,33 +141,16 @@ const Categories = () => {
             ))}
           </div>
         )}
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col items-center justify-self-end"
-        >
-          <input
-            type="text"
-            name="category"
-            value={categoryInput}
-            onChange={(e) => setCategoryInput(e.target.value)}
-            className="w-[55%] md:w-1/3 text-center mb-3 border-b-[1px] border-b-gray-300 focus:border-orange-500 hover:border-orange-500 outline-none"
-            placeholder="Enter new category name"
-            required
-          />
-          <button
-            className={`bg-orange-500 w-2/5 md:w-1/4 p-2 mx-auto hover:bg-orange-600 text-lime-50 rounded-xl ${
-              formLoading ? "cursor-not-allowed" : ""
-            }`}
-            disabled={formLoading}
-          >
-            {formLoading
-              ? "Creating Category..."
-              : editMode
-              ? "Edit Category"
-              : "Add Category"}
-          </button>
-        </form>
       </div>
+      {openInput && (
+        <AddCategoryForm
+          handleInputClose={handleInputClose}
+          handleSubmit={handleSubmit}
+          categoryInput={categoryInput}
+          formLoading={formLoading}
+          editMode={editMode}
+        />
+      )}
     </section>
   );
 };

@@ -98,12 +98,6 @@ const DashboardLogin = () => {
             {loading ? <ClipLoader color="#ffffff" size={18} /> : "Login"}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm text-text-primary">
-          Don't have an account?{" "}
-          <a href="/signup" className="text-indigo-600">
-            Sign Up
-          </a>
-        </p>
       </div>
     </div>
   );

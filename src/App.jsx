@@ -30,6 +30,7 @@ import MyOrders from "./pages/MyOrders";
 import RecentlyViewed from "./pages/RecentlyViewed";
 import ProfileSettings from "./pages/ProfileSettings";
 import DashboardPrivateRoute from "./components/dashboard/DashboardPrivateRoute";
+import UserProfile from "./pages/dashboardPages/UserProfile";
 
 function App() {
   const router = createBrowserRouter([
@@ -150,6 +151,10 @@ function App() {
         {
           path: "settings",
           element: <Settings />,
+        },
+        {
+          path: "profile",
+          element: <UserProfile />,
         },
       ],
     },

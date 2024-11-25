@@ -28,11 +28,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        if (!token) {
-          toast.error("You need to Login");
-          navigate("/dashboard/login");
-          return;
-        }
         const userRes = await api.get("/Users", {
           headers: {
             Authorization: `Bearer ${token}`,

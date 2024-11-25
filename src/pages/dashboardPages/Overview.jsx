@@ -62,7 +62,7 @@ const Overview = () => {
       <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-5 flex-wrap">
         {cardContents.map((content, index) => (
           <div
-            className="bg-orange-300 hover:bg-orange-400 p-3 min-w-28 md:min-w-36 rounded-lg cursor-pointer"
+            className="bg-orange-300 hover:bg-orange-400 p-3 min-w-24 md:min-w-36 rounded-lg cursor-pointer"
             key={index}
             onClick={() => navigate(content.path)}
           >
