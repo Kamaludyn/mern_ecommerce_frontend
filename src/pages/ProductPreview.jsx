@@ -22,7 +22,7 @@ const ProductPreview = () => {
       JSON.parse(localStorage.getItem("recentlyViewedItems")) || [];
 
     // Remove the product if it already exists in recentItems
-    recentItems = recentItems.filter((item) => item.id !== product._id);
+    recentItems = recentItems.filter((item) => item._id !== product._id);
 
     // Add the new product to the beginning of the array
     recentItems.unshift(product);

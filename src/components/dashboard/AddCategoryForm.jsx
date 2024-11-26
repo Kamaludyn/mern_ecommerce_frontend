@@ -24,12 +24,12 @@ const AddCategoryForm = ({
           name="category"
           value={categoryInput}
           onChange={(e) => setCategoryInput(e.target.value)}
-          className="w-[55%] md:w-3/4 pb-1 text-center mb-3 border-b-[1px] border-b-gray-300 focus:border-orange-500 hover:border-orange-500 outline-none"
+          className="w-4/5 md:w-3/4 pb-1 text-center mb-3 border-b-[1px] border-b-gray-300 focus:border-orange-500 hover:border-orange-500 outline-none"
           placeholder="Enter new category name"
           required
         />
         <button
-          className={`bg-orange-500 w-2/5 md:w-1/4 p-2 py-3 md:py-2 mx-auto hover:bg-orange-600 text-lime-50 rounded-xl ${
+          className={`bg-orange-500 md:w-1/4 p-2 py-2 mx-auto hover:bg-orange-600 text-lime-50 rounded-xl ${
             formLoading ? "cursor-not-allowed" : ""
           }`}
           disabled={formLoading}

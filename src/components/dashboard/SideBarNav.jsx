@@ -61,16 +61,16 @@ const SideBarNav = ({ isOpen, toggleMenu }) => {
 
   return (
     <>
-      {isOpen && (
-        <div
-          className="fixed top-[3.99rem] inset-0 bg-black opacity-50 z-40 md:hidden"
-          onClick={toggleMenu} // Clicking outside the sidebar closes it
-        />
-      )}
+      <div
+        className={`fixed top-[63px] right-0 left-0 transition-all ease-linear duration-150 inset-0 bg-black opacity-50 z-40 md:hidden ${
+          isOpen ? "" : "right-[100%]"
+        }`}
+        onClick={toggleMenu} // Clicking outside the sidebar closes it
+      />
       <nav
         className={`
       bg-teal-200 h-full w-16 hover:w-48 md:w-16 hover:md:w-64 group transition-all duration-300 overflow-hidden fixed top-[63px] left-0 z-40 ${
-        isOpen ? "w-48 md:w-64 hover:md:w-64 overflow-hidden" : ""
+        isOpen ? "w-48 md:w-64 hover:md:w-64 overflow-hidden" : "w-0"
       } `}
       >
         <ul className="space-y-2 pr-2 mt-7">

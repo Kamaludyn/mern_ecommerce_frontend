@@ -2,15 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import Spinner from "../../components/Spinner";
 import api from "../../services/api";
 import { toast } from "react-toastify";
-import {
-  FaEdit,
-  FaExclamationCircle,
-  FaPlus,
-  FaTimes,
-  FaTrash,
-} from "react-icons/fa";
+import { FaEdit, FaExclamationCircle, FaPlus, FaTrash } from "react-icons/fa";
 import { DashboardContext } from "../../context/DashboardContext";
-import ClipLoader from "react-spinners/ClipLoader";
 import AddCategoryForm from "../../components/dashboard/AddCategoryForm";
 
 const Categories = () => {
@@ -104,7 +97,7 @@ const Categories = () => {
       <div className="flex justify-between items-center my-5">
         <h1 className="text-h1">Categories</h1>
         <button
-          className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 px-5 py-3 text-white rounded-md"
+          className="flex items-center gap-1 font-semibold md:gap-2 bg-orange-500 hover:bg-orange-600 px-3 py-1.5 md:px-5 md:py-3 text-white rounded-md"
           onClick={() => setOpenInput(true)}
         >
           <FaPlus /> Add Category
@@ -147,6 +140,7 @@ const Categories = () => {
           handleInputClose={handleInputClose}
           handleSubmit={handleSubmit}
           categoryInput={categoryInput}
+          setCategoryInput={setCategoryInput}
           formLoading={formLoading}
           editMode={editMode}
         />
