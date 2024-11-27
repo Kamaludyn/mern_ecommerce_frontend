@@ -62,16 +62,19 @@ const SideBarNav = ({ isOpen, toggleMenu }) => {
   return (
     <>
       <div
-        className={`fixed top-[63px] right-0 left-0 transition-all ease-linear duration-150 inset-0 bg-black opacity-50 z-40 md:hidden ${
-          isOpen ? "" : "right-[100%]"
+        className={` ${
+          isOpen
+            ? "fixed top-[63px] right-0 left-0 transition-all ease-linear duration-150 inset-0 bg-black opacity-50 z-20 md:hidden"
+            : "right-[100%]"
         }`}
         onClick={toggleMenu} // Clicking outside the sidebar closes it
       />
       <nav
-        className={`
-      bg-teal-200 h-full w-16 hover:w-48 md:w-16 hover:md:w-64 group transition-all duration-300 overflow-hidden fixed top-[63px] left-0 z-40 ${
-        isOpen ? "w-48 md:w-64 hover:md:w-64 overflow-hidden" : "w-0"
-      } `}
+        className={`${
+          isOpen
+            ? "bg-teal-200 h-full w-48 md:w-64 fixed top-[62px] group  transition-all duration-300 overflow-hidden z-40  "
+            : "bg-teal-200 h-full w-0 md:w-[60px] hover:md:w-64 fixed top-[62px] group transition-all duration-300 overflow-hidden z-40"
+        } `}
       >
         <ul className="space-y-2 pr-2 mt-7">
           {menuItems.map((item, index) => (
@@ -86,13 +89,7 @@ const SideBarNav = ({ isOpen, toggleMenu }) => {
                 }
               >
                 <span className="text-sm md:text-base">{item.icon}</span>
-                <span
-                  className={`${
-                    isOpen
-                      ? "max-w-xs overflow-hidden whitespace-nowrap"
-                      : "max-w-0"
-                  }text-base whitespace-nowrap max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 cursor-pointer`}
-                >
+                <span className="text-base transition-all duration-300 cursor-pointer max-w-xs overflow-hidden whitespace-nowrap">
                   {item.label}
                 </span>
               </NavLink>
