@@ -2,13 +2,15 @@ import { useRef, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaPhone,
-  FaAddressBook,
   FaEnvelope,
   FaKey,
   FaPortrait,
   FaUserCircle,
   FaEyeSlash,
   FaEye,
+  FaRoad,
+  FaCity,
+  FaGlobe,
 } from "react-icons/fa";
 import api from "../services/api";
 import { toast } from "react-toastify";
@@ -47,7 +49,11 @@ const SignUp = () => {
       othername: createAcctForm.othername.value,
       email: createAcctForm.email.value,
       phone: createAcctForm.phone.value,
-      address: createAcctForm.address.value,
+      address: {
+        street: createAcctForm.street.value,
+        city: createAcctForm.city.value,
+        country: createAcctForm.country.value,
+      },
       password: createAcctForm.password.value,
     };
 
@@ -96,7 +102,7 @@ const SignUp = () => {
             ref={userRef}
             name="surname"
             placeholder="Surname"
-            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent"
+            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent hover:border-accent"
             required
           />
         </div>
@@ -107,7 +113,7 @@ const SignUp = () => {
             type="text"
             name="othername"
             placeholder="Other Name"
-            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent"
+            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent hover:border-accent"
             required
           />
         </div>
@@ -119,18 +125,38 @@ const SignUp = () => {
             inputMode="numeric"
             name="phone"
             placeholder="Phone"
-            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent"
+            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent hover:border-accent"
             required
           />
         </div>
 
         <div className="flex items-center w-full">
-          <FaAddressBook className="text-text-primary mr-2" />
+          <FaRoad className="text-text-primary mr-2" />
           <input
             type="text"
-            name="address"
-            placeholder="Address"
-            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent"
+            name="street"
+            placeholder="Street"
+            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent hover:border-accent"
+            required
+          />
+        </div>
+        <div className="flex items-center w-full">
+          <FaCity className="text-text-primary mr-2" />
+          <input
+            type="text"
+            name="town"
+            placeholder="town"
+            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent hover:border-accent"
+            required
+          />
+        </div>
+        <div className="flex items-center w-full">
+          <FaGlobe className="text-text-primary mr-2" />
+          <input
+            type="text"
+            name="country"
+            placeholder="Country"
+            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent hover:border-accent"
             required
           />
         </div>
@@ -141,19 +167,19 @@ const SignUp = () => {
             type="email"
             name="email"
             placeholder="Email"
-            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent"
+            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent hover:border-accent"
             required
           />
         </div>
 
         <div className="flex items-center w-full">
           <FaKey className="text-text-primary mr-2" />
-          <div className=" w-full flex pr-2 border border-gray-300 rounded-md">
+          <div className=" w-full flex pr-2">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
-              className="p-1.5 flex-grow outline-none focus:border-accent"
+              className="p-1.5 flex-grow outline-none border border-gray-300 rounded-md focus:border-accent hover:border-accent"
               required
             />
             <span

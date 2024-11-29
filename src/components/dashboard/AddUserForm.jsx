@@ -141,7 +141,7 @@ const AddUserForm = ({ toggleForm, selectedUserData }) => {
   return (
     <section className="fixed top-0 bottom-0 left-0 right-0 bg-[#00000054] flex justify-center items-start w-screen h-screen z-50 overflow-auto">
       <form
-        className="flex flex-col gap-2 ml-14 md:ml-0 w-[70%] md:w-1/2 bg-white text-text-primary p-6 mt-[70px] rounded-xl relative"
+        className="flex flex-col gap-2 w-4/5 md:w-1/2 bg-white text-text-primary p-6 mt-[70px] rounded-xl relative"
         onSubmit={handleSubmit}
       >
         <FaTimes

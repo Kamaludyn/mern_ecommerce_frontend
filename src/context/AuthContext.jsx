@@ -7,6 +7,9 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(null);
+  const [customers, setCustomers] = useState(null);
+  const [customerCount, setCustomerCount] = useState(0);
+  const [loading, setLoading] = useState(false);
   // Initialize token and user state from localStorage or set to null
   const [token, setToken] = useState(
     () => localStorage.getItem("authToken") || null
@@ -26,26 +29,35 @@ export const AuthProvider = ({ children }) => {
 
   // Effect to fetch users on initial render
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchData = async () => {
+      setLoading(true);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
       try {
-        const userRes = await api.get("/Users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // Fetch all data in parallel
+        const [userRes, customerRes, customerCountRes] = await Promise.all([
+          api.get("/Users", { headers }),
+          api.get("/customers", { headers }),
+          api.get("/customers/count", { headers }),
+        ]);
+
+        // Handle fetched data
         setUsers(userRes.data.users);
+        setCustomers(customerRes.data.customers);
+        setCustomerCount(customerCountRes.data.customersCount);
       } catch (error) {
         if (error.message === "Network Error") {
           toast.error("Please check your network connection");
-        } else if (error.response?.data.error === "jwt expired") {
-          // Expired token error
-          toast.error("Session expired: Please login again");
-          navigate("/dashboard/login");
         }
+      } finally {
+        setLoading(false);
       }
     };
-    fetchUsers();
-  }, []);
+
+    fetchData();
+  }, [token]);
 
   // Function to log in the user
   const login = (token, userData) => {
@@ -97,7 +109,18 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ token, user, users, setUsers, login, logout }}
+      value={{
+        token,
+        user,
+        users,
+        customers,
+        setCustomers,
+        customerCount,
+        setUsers,
+        login,
+        logout,
+        loading,
+      }}
     >
       {children}
     </AuthContext.Provider>

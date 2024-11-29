@@ -5,10 +5,9 @@ import {
   FaBoxOpen,
   FaTags,
   FaShoppingCart,
-  FaHeadset,
-  FaWarehouse,
   FaCogs,
   FaSignOutAlt,
+  FaUsers,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
@@ -16,42 +15,37 @@ import AuthContext from "../../context/AuthContext";
 const menuItems = [
   {
     label: "Overview",
-    icon: <FaTachometerAlt />, // Dashboard icon
+    icon: <FaTachometerAlt />,
     route: "/dashboard",
   },
   {
     label: "Users",
-    icon: <FaUserFriends />, // User management icon
+    icon: <FaUserFriends />,
     route: "/dashboard/users",
   },
   {
+    label: "Customers",
+    icon: <FaUsers />,
+    route: "/dashboard/customers",
+  },
+  {
     label: "Products",
-    icon: <FaBoxOpen />, // Products icon
+    icon: <FaBoxOpen />,
     route: "/dashboard/products",
   },
   {
     label: "Categories",
-    icon: <FaTags />, // Categories icon
+    icon: <FaTags />,
     route: "/dashboard/categories",
   },
   {
     label: "Orders",
-    icon: <FaShoppingCart />, // Orders icon
+    icon: <FaShoppingCart />,
     route: "/dashboard/orders",
   },
   {
-    label: "Inventory",
-    icon: <FaWarehouse />, // Inventory icon
-    route: "/dashboard/inventory",
-  },
-  {
-    label: "Support",
-    icon: <FaHeadset />, // Support icon
-    route: "/dashboard/support",
-  },
-  {
     label: "Settings",
-    icon: <FaCogs />, // Settings icon
+    icon: <FaCogs />,
     route: "/dashboard/settings",
   },
 ];

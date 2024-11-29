@@ -31,6 +31,7 @@ import RecentlyViewed from "./pages/RecentlyViewed";
 import ProfileSettings from "./pages/ProfileSettings";
 import DashboardPrivateRoute from "./components/dashboard/DashboardPrivateRoute";
 import UserProfile from "./pages/dashboardPages/UserProfile";
+import Customers from "./pages/dashboardPages/Customers";
 
 function App() {
   const router = createBrowserRouter([
@@ -123,6 +124,10 @@ function App() {
         {
           path: "users",
           element: <Users />,
+        },
+        {
+          path: "customers",
+          element: <Customers />,
         },
         {
           path: "products",

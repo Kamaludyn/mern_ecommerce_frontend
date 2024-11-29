@@ -10,10 +10,10 @@ const AddCategoryForm = ({
   editMode,
 }) => {
   return (
-    <section className="bg-[#00000014] fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center">
+    <section className="bg-[#00000022] fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center">
       <form
         onSubmit={handleSubmit}
-        className="relative bg-white w-[55%] py-6 flex flex-col items-center justify-center rounded-md shadow-2xl drop-shadow-xl"
+        className="relative bg-white w-4/5 py-6 flex flex-col items-center justify-center rounded-md shadow-2xl drop-shadow-xl"
       >
         <FaTimes
           className="absolute top-[10%] right-[5%] text-lg text-red cursor-pointer"

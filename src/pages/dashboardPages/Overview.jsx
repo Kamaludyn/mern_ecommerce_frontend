@@ -1,27 +1,23 @@
 import { useContext } from "react";
-import {
-  FaBoxOpen,
-  FaHeadset,
-  FaShoppingCart,
-  FaTags,
-  FaUserFriends,
-  FaWarehouse,
-} from "react-icons/fa";
+import { FaBoxOpen, FaShoppingCart, FaTags, FaUsers } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { DashboardContext } from "../../context/DashboardContext";
+import AuthContext from "../../context/AuthContext";
 
 const Overview = () => {
   const { counts } = useContext(DashboardContext);
+
+  const { customerCount } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   // Array to hold the card contents for each section of the dashboard
   const cardContents = [
     {
-      title: "Users",
-      amount: 0,
-      icon: <FaUserFriends />,
-      path: "/dashboard/users",
+      title: "Customers",
+      amount: customerCount,
+      icon: <FaUsers />,
+      path: "/dashboard/customers",
     },
     {
       title: "Products",
@@ -41,22 +37,10 @@ const Overview = () => {
       icon: <FaShoppingCart />,
       path: "/dashboard/orders",
     },
-    {
-      title: "Inventory",
-      amount: 0,
-      icon: <FaWarehouse />,
-      path: "/dashboard/inventory",
-    },
-    {
-      title: "Support",
-      amount: 0,
-      icon: <FaHeadset />,
-      path: "/dashboard/support",
-    },
   ];
 
   return (
-    <section className="pt-1 text-text-primary">
+    <section className="pt-1 text-text-primary sm:text-lg font-semibold">
       <h1 className="font-bold text-xl my-5">Overview</h1>
 
       <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-5 flex-wrap">
@@ -67,10 +51,10 @@ const Overview = () => {
             onClick={() => navigate(content.path)}
           >
             <div className="flex justify-between mb-2 md:mb-6">
-              <h2 className="font-semibold">{content.title}</h2>
+              <h2>{content.title}</h2>
               {content.icon}
             </div>
-            <h1>{content.amount}</h1>
+            <p className="text-lg md:text-xl">{content.amount}</p>
           </div>
         ))}
       </div>
