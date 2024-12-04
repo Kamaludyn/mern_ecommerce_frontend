@@ -5,6 +5,7 @@ import Spinner from "../../components/Spinner";
 import ProductsDataTable from "../../components/dashboard/ProductsDataTable";
 import AddProductsForm from "../../components/dashboard/AddProductsForm";
 import { DashboardContext } from "../../context/DashboardContext";
+import { toast } from "react-toastify";
 
 const Products = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -31,9 +32,9 @@ const Products = () => {
       await api.delete(`/products/${rowData._id}`); // Send delete request to the API
       // Update products list by removing the deleted product
       setProducts(products.filter((product) => product._id !== rowData._id));
-      alert("deleted successfully.");
+      toast.success("deleted successfully.");
     } catch (error) {
-      alert("Failed to delete product. Please try again.");
+      toast.error("Failed to delete product. Please try again.");
     }
   };
 
@@ -46,7 +47,10 @@ const Products = () => {
       const fetchedData = response.data.product;
       setSelectedRowData(fetchedData); // Update state with the product data to be edited
     } catch (error) {
-      console.error("Error updating product", error.response);
+      if (error.message === "Network Error") {
+        // Network error
+        toast.error("Please check your network connection");
+      }
     }
   };
 
@@ -81,6 +85,7 @@ const Products = () => {
           globalFilter={globalFilter}
           handleDelete={handleDelete}
           handleEdit={handleEdit}
+          toggleForm={toggleForm}
         />
       )}
       {openForm && (

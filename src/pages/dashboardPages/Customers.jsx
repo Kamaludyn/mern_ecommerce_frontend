@@ -85,7 +85,6 @@ const Customers = () => {
       )}
       {isOpenForm && (
         <UpdateCustomer
-          handleEdit={handleEdit}
           closeForm={closeForm}
           formData={formData}
           setFormData={setFormData}

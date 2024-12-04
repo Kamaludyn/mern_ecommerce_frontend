@@ -4,6 +4,7 @@ import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ProductsDataTable = ({
   products,
@@ -11,6 +12,8 @@ const ProductsDataTable = ({
   handleDelete,
   handleEdit,
 }) => {
+  const navigate = useNavigate();
+
   // Template for rendering product images
   const imageBodyTemplate = (rowData) => (
     <img
@@ -27,15 +30,30 @@ const ProductsDataTable = ({
   const actionBodyTemplate = (rowData) => (
     <div className="flex gap-3">
       <FaEdit
-        className="text-lime-400 cursor-pointer"
-        onClick={() => handleEdit(rowData)}
+        className="md:text-xl text-lime-400 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleEdit(rowData);
+        }}
       />
       <FaTrash
-        className="text-rose-600 cursor-pointer"
-        onClick={() => handleDelete(rowData)}
+        className="md:text-xl text-rose-600 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDelete(rowData);
+        }}
       />
     </div>
   );
+
+  // Handle row click to navigate to product preview
+  const onRowClick = (e) => {
+    const product = e.data;
+    const productId = product._id;
+
+    navigate(`/dashboard/products/${productId}`, { state: { product } });
+  };
+
   return (
     <DataTable
       value={products}
@@ -49,6 +67,7 @@ const ProductsDataTable = ({
       globalFilter={globalFilter}
       className="mb-10 "
       rowHover
+      onRowClick={onRowClick}
     >
       <Column header="Image" body={imageBodyTemplate} />
       <Column

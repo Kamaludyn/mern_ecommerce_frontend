@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DashboardContext } from "../../context/DashboardContext";
 import ClipLoader from "react-spinners/ClipLoader";
+import AuthContext from "../../context/AuthContext";
 
 const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
   const [loading, setLoading] = useState(false);
@@ -16,10 +17,13 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
     category: "",
     isFeatured: false,
     product_image: null,
+    gallery_images: [],
   });
   const [formErrors, setFormErrors] = useState({});
 
   const { products, setProducts } = useContext(DashboardContext);
+
+  const { token } = useContext(AuthContext);
 
   // Effect to pre-populate form when editing a product (selectedRowData is available)
   useEffect(() => {
@@ -32,6 +36,7 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
         category: selectedRowData.category?._id || "",
         isFeatured: selectedRowData.isFeatured || false,
         product_image: null,
+        gallery_images: null,
       });
     }
   }, [selectedRowData]);
@@ -48,6 +53,15 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
   // Handle file input change (product image)
   const handleFileChange = (e) => {
     setFormData({ ...formData, product_image: e.target.files[0] });
+  };
+
+  // Handle gallery images
+  const handleGalleryChange = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      gallery_images: files,
+    }));
   };
 
   // Validate form before submission (ensure positive price and stock count)
@@ -89,19 +103,21 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
     }
 
     try {
+      let productId = null;
+
       // Editing an existing product
       if (selectedRowData) {
         // Checking if no changes were made
-        if (
-          selectedRowData &&
-          JSON.stringify({
-            ...formData,
-            product_image: undefined,
-          }) ===
-            JSON.stringify({
-              ...selectedRowData,
-            })
-        ) {
+        const areChangesMade =
+          selectedRowData.name !== formData.name ||
+          selectedRowData.description !== formData.description ||
+          selectedRowData.price !== Number(formData.price) ||
+          selectedRowData.countInStock !== Number(formData.countInStock) ||
+          selectedRowData.category?._id !== formData.category ||
+          selectedRowData.isFeatured !== formData.isFeatured ||
+          formData.product_image; // Check if a new image is provided
+
+        if (!areChangesMade) {
           toast.info("No changes were made.");
           setLoading(false);
           return;
@@ -111,13 +127,11 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
           `/products/${selectedRowData._id}`,
           formInputData
         );
+        // Update the context with the updated product
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
             product._id === selectedRowData._id
-              ? {
-                  ...product,
-                  ...editResponse.data,
-                }
+              ? { ...product, ...editResponse.data.product }
               : product
           )
         );
@@ -126,13 +140,33 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
       } else {
         // Create new product
         const createResponse = await api.post("/products", formInputData);
+        productId = createResponse.data.product._id;
         setProducts([...products, createResponse.data]);
         toast.success("Product added successfully!");
+
+        // Upload gallery image(s)
+        if (formData.gallery_images.length > 0) {
+          const uploadPromises = formData.gallery_images.map((image) => {
+            const galleryFormData = new FormData();
+            galleryFormData.append("gallery_image", image);
+            return api.put(`/products/gallery/${productId}`, galleryFormData, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+          });
+
+          // Execute all gallery image uploads in parallel.
+          const responses = await Promise.all(uploadPromises);
+          toast.success("Gallery images uploaded successfully!");
+        }
       }
     } catch (error) {
-      if (error.request) {
-        // Client never received a response, or request never left
-        toast.error("Network error. Please check your internet connection.");
+      if (error.message === "Network Error") {
+        // Network error
+        toast.error("Please check your network connection");
+      } else if (error.response?.data.error === "jwt expired") {
+        // Expired token error
+        toast.error("Session expired: Please login again");
+        navigate("/dashboard/login");
       } else {
         // Catch All (e.g., request setup issues)
         toast.error("An error occurred. Please try again.");
@@ -170,17 +204,36 @@ const AddProductsForm = ({ toggleForm, selectedRowData, categories }) => {
             </option>
           ))}
         </select>
+        {!selectedRowData && (
+          <>
+            <label htmlFor="image" className="font-semibold">
+              Add a Product Image
+            </label>
+            <input
+              className="mb-3 border-b-2 border-gray-300 cursor-pointer hover:border-teal-700"
+              type="file"
+              name="product_image"
+              id="image"
+              accept="image/*"
+              onChange={handleFileChange}
+              required
+            />
+            <label htmlFor="gallery_images" className="font-semibold">
+              Add Gallery Images (optional)
+            </label>
+            <input
+              className="border-b-2 border-gray-300 cursor-pointer hover:border-teal-700"
+              type="file"
+              name="gallery_images"
+              multiple
+              accept="image/*"
+              onChange={handleGalleryChange}
+            />
+          </>
+        )}
+
         <input
-          className="outline-none pt-1.5 mb-3"
-          type="file"
-          name="product_image"
-          id="image"
-          accept="image/*"
-          onChange={handleFileChange}
-          required
-        />
-        <input
-          className="outline-none mb-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
+          className="outline-none my-3 border-b-[1px] border-b-gray-300 focus:border-teal-700 hover:border-teal-700"
           type="text"
           name="name"
           placeholder="Product Name"

@@ -10,7 +10,7 @@ const AddCategoryForm = ({
   editMode,
 }) => {
   return (
-    <section className="bg-[#00000022] fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center">
+    <section className="bg-[#00000022] fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center z-50">
       <form
         onSubmit={handleSubmit}
         className="relative bg-white w-4/5 py-6 flex flex-col items-center justify-center rounded-md shadow-2xl drop-shadow-xl"

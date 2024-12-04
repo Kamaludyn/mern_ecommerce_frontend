@@ -32,6 +32,7 @@ import ProfileSettings from "./pages/ProfileSettings";
 import DashboardPrivateRoute from "./components/dashboard/DashboardPrivateRoute";
 import UserProfile from "./pages/dashboardPages/UserProfile";
 import Customers from "./pages/dashboardPages/Customers";
+import DashboardProductPreview from "./pages/dashboardPages/DashboardProductPreview";
 
 function App() {
   const router = createBrowserRouter([
@@ -132,6 +133,10 @@ function App() {
         {
           path: "products",
           element: <Products />,
+        },
+        {
+          path: "products/:id",
+          element: <DashboardProductPreview />,
         },
         {
           path: "categories",
