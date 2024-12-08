@@ -36,7 +36,7 @@ const OfficialStore = () => {
         {officialBrands.map((brand, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg hover:shadow-uShape hover:scale-[1.009] transition-all duration-100 ease-in-out"
+            className="bg-white rounded-lg hover:shadow-uShape hover:scale-[1.009] transition-all duration-100 ease-in-out cursor-pointerr"
           >
             <img
               className="w-full h-40 rounded-lg"

@@ -23,7 +23,7 @@ const ProfileSettings = () => {
       // Redirect customer to login page
       navigate("/login");
     } catch (error) {
-      toast.error("An error occured while logging out");
+      toast.error("An error occured during logging out");
     }
   };
 

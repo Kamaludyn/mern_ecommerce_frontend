@@ -36,13 +36,9 @@ export const AppProvider = ({ children }) => {
         setProducts(productRes.data.products);
         setCategories(categoryRes.data.categories);
       } catch (error) {
-        if (error.request) {
-          // Request was made, but no response received
-          toast.error("Please check your network connection");
-        } else {
-          // Catch all
-          toast.error("An unexxpected error occured");
-        }
+        console.error(
+          "An error occurred while fetching products and categories data"
+        );
       } finally {
         setLoading(false);
       }

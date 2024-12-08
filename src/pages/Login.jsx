@@ -1,6 +1,6 @@
 import api from "../services/api";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { FaEnvelope, FaKey } from "react-icons/fa";
+import { FaEnvelope, FaEye, FaEyeSlash, FaKey } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
@@ -9,6 +9,7 @@ import { AppContext } from "../context/AppContext";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const userRef = useRef();
 
@@ -20,6 +21,11 @@ const Login = () => {
   useEffect(() => {
     userRef.current.focus();
   }, []);
+
+  // Function to toggle password visibility between text and password type
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   // Function to handle login form submission
   const handleLogin = async (e) => {
@@ -47,9 +53,9 @@ const Login = () => {
       // Navigate customer to home page after a successful login
       navigate("/");
     } catch (error) {
-      if (!error.response) {
+      if (error.message === "Network Error") {
         // Network error (e.g., no internet connection)
-        toast.error("Network Error: Please check your internet connection");
+        toast.error("Please check your network connection");
       } else if (error.response.status === 400) {
         // Bad request (e.g., invalid login credentials)
         toast.error(error.response.data.message);
@@ -66,7 +72,7 @@ const Login = () => {
     <>
       <form
         onSubmit={handleLogin}
-        className="flex flex-col items-center justify-center w-full max-w-sm mx-auto p-4 py-10 my-20 bg-white shadow-md rounded-md space-y-2"
+        className="flex flex-col items-center justify-center w-full max-w-sm mx-auto p-4 py-10 my-20 bg-white shadow-uShape border border-gray-300 rounded-md space-y-2"
       >
         <div className="flex items-center w-full">
           <FaEnvelope className="text-text-primary mr-2" />
@@ -83,14 +89,26 @@ const Login = () => {
 
         <div className="flex items-center w-full">
           <FaKey className="text-text-primary mr-2" />
-          <input
-            type="password"
-            name="loginPassword"
-            placeholder="Password"
-            className="border border-gray-300 rounded-md p-1.5 flex-grow outline-none focus:border-accent"
-            required
-            disabled={loading}
-          />
+          <div className="w-full flex pr-2 border border-gray-300 rounded-md focus:border-accent hover:border-accent">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="loginPassword"
+              placeholder="Password"
+              className="rounded-lg p-1.5 flex-grow outline-none"
+              required
+              disabled={loading}
+            />
+            <span
+              className="ml-2 text-xl cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="mt-2 text-text-secondary" />
+              ) : (
+                <FaEye className="mt-2 text-text-secondary" />
+              )}
+            </span>
+          </div>
         </div>
 
         <button

@@ -48,9 +48,9 @@ export const AuthProvider = ({ children }) => {
         setCustomers(customerRes.data.customers);
         setCustomerCount(customerCountRes.data.customersCount);
       } catch (error) {
-        if (error.message === "Network Error") {
-          toast.error("Please check your network connection");
-        }
+        console.error(
+          "An error occurred while fetching data(user, customer & customer count)"
+        );
       } finally {
         setLoading(false);
       }

@@ -25,7 +25,9 @@ export const DashboardProvider = ({ children }) => {
         setProducts(productsResponse.data.products);
         setCategories(categoriesResponse.data.categories);
       } catch (error) {
-        toast.error("An error occurred");
+        console.error(
+          "An Error occurred while fetching products and categories data"
+        );
       } finally {
         setLoading(false);
       }
@@ -36,7 +38,7 @@ export const DashboardProvider = ({ children }) => {
 
   // Fetching product and category counts on mount
   useEffect(() => {
-    const fetchProductCount = async () => {
+    const fetchCounts = async () => {
       try {
         const [productRes, categoryRes] = await Promise.all([
           api.get("/products/count"),
@@ -49,11 +51,13 @@ export const DashboardProvider = ({ children }) => {
           categoryCount: categCount,
         });
       } catch (error) {
-        toast.error("An error occurred");
+        console.error(
+          "An Error occurred while fetching products and categories count"
+        );
       }
     };
 
-    fetchProductCount();
+    fetchCounts();
   }, []);
 
   return (

@@ -1,10 +1,11 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import AddGalleryImageForm from "../../components/dashboard/AddGalleryImageForm";
+import { FaAngleLeft } from "react-icons/fa";
 
 const DashboardProductPreview = () => {
   // Extracts state passed via navigation and the product ID from the URL.
@@ -13,6 +14,8 @@ const DashboardProductPreview = () => {
 
   // Gets the authorization token from the AuthContext.
   const { token } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   // Initializes state variables for product data, gallery images, and UI state.
   const [product, setProduct] = useState(state?.product || []);
@@ -24,21 +27,7 @@ const DashboardProductPreview = () => {
   const [editMode, setEditMode] = useState(false);
   const [loading, setloading] = useState(false);
 
-  // Fetches product data if not already loaded via state.
-  useEffect(() => {
-    if (!product) {
-      const fetchProduct = async () => {
-        try {
-          const response = await api.get(`/products/${id}`);
-          setProduct(response.data);
-          setGalleryImages(response.gallery || []);
-        } catch {
-          console.error("Error fetching product.");
-        }
-      };
-      fetchProduct();
-    }
-  }, [id, product]);
+  let hasGalleryImages = state?.product?.gallery.length > 0;
 
   // Handles changes in the gallery image input.
   const handleGalleryChange = (e) => {
@@ -107,9 +96,18 @@ const DashboardProductPreview = () => {
     setEditMode(true);
   };
   return (
-    <section className="flex justify-center items-start min-h-screen">
+    <section className="flex flex-col items-start min-h-screen">
+      <header>
+        <button
+          className="px-6 py-1 my-4 rounded-lg shadow-md border border-gray-300"
+          onClick={() => navigate("/dashboard/products")}
+        >
+          <FaAngleLeft className="inline mb-0.5" /> Back
+        </button>
+        <h1 className="text-h1">Product Preview</h1>
+      </header>
       {product ? (
-        <div className="bg-white border shadow-uShape rounded-lg p-6 mt-10 min-w-4/5 md:w-10/12">
+        <div className="bg-white border border-gray-300 shadow-uShape rounded-lg p-6 mt-5 min-w-4/5 md:w-10/12">
           <h1 className="text-lg md:text-2xl font-semibold md:font-bold mb-4 text-gray-800">
             Product Name: <span className="text-teal-700">{product.name}</span>
           </h1>
@@ -117,35 +115,37 @@ const DashboardProductPreview = () => {
             <div id="imageSection" className="flex flex-col gap-1.5 md:w-2/3">
               <div className="flex flex-col md:flex-row gap-1.5">
                 <img
-                  src={product.image.secure_url || null}
-                  alt={product.name}
-                  className="w-full md:w-1/2 h-full object-center rounded-lg  "
+                  src={product?.image.secure_url || null}
+                  alt={product?.name}
+                  className={`w-full ${
+                    !galleryImages && "md:w-full"
+                  }md:w-1/2 h-full object-center rounded-lg`}
                 />
-                {galleryImages && (
+                {hasGalleryImages && (
                   <div className="grid grid-cols-2 gap-1 w-full h-full md:w-3/5">
                     {galleryImages.map((image, index) => (
                       <img
                         key={index}
                         src={image.secure_url || null}
-                        alt={product.name}
+                        alt={product?.name}
                         className="w-full h-full max-h-80 object-cover rounded-lg"
                       />
                     ))}
                   </div>
                 )}
               </div>
-              <div className="flex md:text-base gap-1 w-full">
+              <div className="flex md:text-base gap-1.5 w-full justify-self">
                 <button
-                  className="min-w-16 w-1/2 bg-teal-500 hover:bg-teal-700 text-lime-50 rounded-md p-2 px-3"
-                  onClick={() => setGalleryForm(true)}
-                >
-                  Add Gallery Images
-                </button>
-                <button
-                  className="min-w-16 w-1/2 bg-orange-500 hover:bg-orange-700 text-lime-50 rounded-md p-2 px-3"
+                  className="min-w-16 w-full md:w-[84%] bg-orange-500 hover:bg-orange-700 text-lime-50 rounded-md p-2 px-3"
                   onClick={UpdateProductImage}
                 >
                   Update Product Image
+                </button>
+                <button
+                  className="min-w-16 w-full md:w-1/2 bg-teal-500 hover:bg-teal-700 text-lime-50 rounded-md p-2 px-3"
+                  onClick={() => setGalleryForm(true)}
+                >
+                  Add Gallery Images
                 </button>
               </div>
             </div>
@@ -155,23 +155,23 @@ const DashboardProductPreview = () => {
             >
               <p className="text-gray-700">
                 <span className="font-bold text-gray-600">Category:</span>{" "}
-                {product.category.name}
+                {product?.category?.name}
               </p>
               <p className="text-gray-700">
                 <span className="font-bold text-gray-600">Price:</span> $
-                {product.price}
+                {product?.price}
               </p>
               <p className="text-gray-700">
                 <span className="font-bold text-gray-600">Stock:</span>{" "}
-                {product.countInStock} items
+                {product?.countInStock} items
               </p>
               <p className="text-gray-700">
                 <span className="font-bold text-gray-600">Description:</span>{" "}
-                {product.description}
+                {product?.description}
               </p>
               <p className="text-gray-700">
                 <span className="font-bold text-gray-600">IsFeatured:</span>{" "}
-                {product.isFeatured ? "IsFeatured" : "No"}
+                {product?.isFeatured ? "IsFeatured" : "No"}
               </p>
             </div>
           </div>

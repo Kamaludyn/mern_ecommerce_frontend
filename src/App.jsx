@@ -15,9 +15,6 @@ import Users from "./pages/dashboardPages/Users";
 import Products from "./pages/dashboardPages/Products";
 import Categories from "./pages/dashboardPages/Categories";
 import Orders from "./pages/dashboardPages/Orders";
-import Reports from "./pages/dashboardPages/Reports";
-import Support from "./pages/dashboardPages/Support";
-import Inventory from "./pages/dashboardPages/Inventory";
 import Settings from "./pages/dashboardPages/Settings";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import ProductPreview from "./pages/ProductPreview";
@@ -145,18 +142,6 @@ function App() {
         {
           path: "orders",
           element: <Orders />,
-        },
-        {
-          path: "reports",
-          element: <Reports />,
-        },
-        {
-          path: "support",
-          element: <Support />,
-        },
-        {
-          path: "inventory",
-          element: <Inventory />,
         },
         {
           path: "settings",

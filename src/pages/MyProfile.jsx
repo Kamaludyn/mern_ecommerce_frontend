@@ -22,23 +22,35 @@ const MyProfile = () => {
           </p>
         </div>
 
-        <p className="text-lg ">
+        <p className="text-lg">
           <strong>Email Address: </strong>
           <span className=" p-0.5 px-1 bg-zinc-200 border border-zinc-300 rounded-[4px]">
             {customer.email}
           </span>
         </p>
 
-        <p className="text-lg ">
+        <p className="text-lg">
           <strong>Phone Number: </strong>
           <span className=" p-0.5 px-1 bg-zinc-200 border border-zinc-300 rounded-[4px]">
             {customer.phone}
           </span>
         </p>
-        <p>
-          <strong>Address:</strong>
+        <p className="text-lg">
+          <strong>Street: </strong>
           <span className=" p-0.5 px-1 bg-zinc-200 border border-zinc-300 rounded-[4px]">
-            {"Null"}
+            {customer.address.street}
+          </span>
+        </p>
+        <p className="text-lg">
+          <strong>Town: </strong>
+          <span className=" p-0.5 px-1 bg-zinc-200 border border-zinc-300 rounded-[4px]">
+            {customer.address.town}
+          </span>
+        </p>
+        <p className="text-lg">
+          <strong>Country: </strong>
+          <span className=" p-0.5 px-1 bg-zinc-200 border border-zinc-300 rounded-[4px]">
+            {customer.address.country}
           </span>
         </p>
       </div>

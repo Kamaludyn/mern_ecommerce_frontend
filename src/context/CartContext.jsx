@@ -128,7 +128,6 @@ export const CartProvider = ({ children }) => {
       } else {
         // Catch all to handle unexpected errors
         toast.error("An unexpected error occurred. Please try again later.");
-        console.log("new cart", error);
       }
     }
   };

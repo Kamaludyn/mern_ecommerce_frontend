@@ -2,15 +2,22 @@ import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import PlaceholderCard from "./PlaceholderCard";
 import ProductCard from "./ProductCard";
+import { FaAngleDown } from "react-icons/fa";
 
 const LatestDeals = () => {
   const { products } = useContext(AppContext);
   const [Latestproducts, setLatestProducts] = useState([]);
+  const [showMore, setShowMore] = useState(12);
 
   // Displaying only twelve products in this section
   useEffect(() => {
-    setLatestProducts(products.slice(0, 12));
-  }, [products]);
+    setLatestProducts(products.slice(0, showMore));
+  }, [products, showMore]);
+
+  // Function to display more products
+  const handleShowMore = () => {
+    setShowMore((prevState) => prevState + 12);
+  };
 
   return (
     <section className="bg-white w-[90%] md:w-[80%] mx-auto mb-6 rounded-t-lg rounded-b-xl shadow-lg">
@@ -30,6 +37,14 @@ const LatestDeals = () => {
           ))}
         </div>
       )}
+      <div className="w-full flex justify-end pr-4 mb-5">
+        <button
+          className="border border-accent hover:bg-accent rounded-lg px-8 py-1 mb-5 text-accent hover:text-white font-semibold"
+          onClick={handleShowMore}
+        >
+          More <FaAngleDown className="mb-0.5 inline" />
+        </button>
+      </div>
     </section>
   );
 };

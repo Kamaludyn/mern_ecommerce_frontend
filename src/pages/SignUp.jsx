@@ -51,7 +51,7 @@ const SignUp = () => {
       phone: createAcctForm.phone.value,
       address: {
         street: createAcctForm.street.value,
-        city: createAcctForm.city.value,
+        town: createAcctForm.town.value,
         country: createAcctForm.country.value,
       },
       password: createAcctForm.password.value,
@@ -65,10 +65,9 @@ const SignUp = () => {
       // Reset the form after submission
       createAcctForm.reset();
     } catch (error) {
-      // Network error (e.g., no internet connection)
-      if (!error.response) {
-        // Network error (no response from server)
-        toast.error("Network Error: Please check your internet connection");
+      if (error.message === "Network Error") {
+        // Network error (e.g., no internet connection)
+        toast.error("Please check your network connection");
       } else if (error.response.status === 400) {
         // Bad request (e.g., invalid data)
         toast.error(error.response.data.message);
@@ -93,7 +92,7 @@ const SignUp = () => {
     <>
       <form
         onSubmit={handleSignUp}
-        className="flex flex-col items-center justify-center w-full max-w-sm mt-0 mb-5 mx-auto py-6 px-4 bg-white shadow-md rounded-md space-y-2"
+        className="flex flex-col items-center justify-center w-full max-w-sm mt-0 mb-5 mx-auto py-6 px-4 bg-white shadow-uShape border border-gray-300 rounded-md space-y-2"
       >
         <div className="flex items-center w-full">
           <FaUserCircle className="text-text-primary mr-2" />
@@ -174,12 +173,12 @@ const SignUp = () => {
 
         <div className="flex items-center w-full">
           <FaKey className="text-text-primary mr-2" />
-          <div className=" w-full flex pr-2">
+          <div className="w-full flex pr-2 border border-gray-300 rounded-md focus:border-accent hover:border-accent">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
-              className="p-1.5 flex-grow outline-none border border-gray-300 rounded-md focus:border-accent hover:border-accent"
+              className="p-1.5 flex-grow outline-none rounded-lg"
               required
             />
             <span
@@ -204,7 +203,9 @@ const SignUp = () => {
 
         <button
           type="submit"
-          className="w-full bg-accent hover:bg-opacity-90 text-white py-3 px-3 rounded-md transition"
+          className={`w-full bg-accent hover:bg-opacity-90 text-white py-3 px-3 rounded-md transition cursor-pointer ${
+            loading && "cursor-not-allowed"
+          }`}
           disabled={loading}
         >
           {loading ? (

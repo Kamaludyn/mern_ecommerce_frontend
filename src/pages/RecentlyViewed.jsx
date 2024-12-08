@@ -31,7 +31,7 @@ const RecentlyViewed = () => {
       {recentItems.length > 0 ? (
         recentItems.map((item) => <ProductCard key={item._id} product={item} />)
       ) : (
-        <div className="w-[80vw] md:w-[40vw] p-6">
+        <div className="w-[80vw] md:w-[40vw]">
           <p>You haven't viewed any products yet!</p>
           <p className="mt-1 "> Check out our popular items:</p>
           <button

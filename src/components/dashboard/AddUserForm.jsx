@@ -119,7 +119,6 @@ const AddUserForm = ({ toggleForm, selectedUserData }) => {
         toggleForm();
       }
     } catch (error) {
-      // #TODO: incomplete fields
       if (error.message === "Network Error") {
         // Network error
         toast.error("Please check your network connection");

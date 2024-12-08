@@ -37,12 +37,7 @@ const Menu = ({ isOpen, closeMenu }) => {
         // Update the categories state with the sorted categories
         setCategories(sortedCategories);
       } catch (error) {
-        if (error.request) {
-          // Request was made, but no response received
-          toast.error("Please check your network connection");
-        } else {
-          toast.error("An unexxpected error occured");
-        }
+        console.error("An error occurred while fetching categories");
       }
     };
 
